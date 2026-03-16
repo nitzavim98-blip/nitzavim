@@ -478,7 +478,7 @@ src/components/extras/PhotoUploader/
 
 ---
 
-## Phase 5 — Shooting Days & Scenes
+## Phase 5 — Shooting Days & Scenes ✅ DONE
 
 **Goal**: Director can manage shooting days (create, edit, archive) and scenes within each day (add, edit, reorder, delete). Gap indicators show understaffed scenes.
 
@@ -576,16 +576,16 @@ Since `extra_scenes` doesn't exist yet in Phase 5: show `0 / required_extras` fo
 
 ### 5.8 Acceptance Criteria
 
-- [ ] Shooting days list shows cards sorted by date
-- [ ] Creating a shooting day saves and appears in the list
-- [ ] Editing a shooting day updates correctly
-- [ ] Shooting day detail renders with scenes (empty state if none)
-- [ ] Adding a scene saves and appears in the list
-- [ ] Editing a scene updates correctly
-- [ ] Deleting a scene shows confirmation, then removes it
-- [ ] Drag-and-drop reordering persists new `sortOrder` values
-- [ ] Archiving moves the day to the archive list and makes it read-only
-- [ ] Gap chip shows correct count on the shooting days list card
+- [x] Shooting days list shows cards sorted by date
+- [x] Creating a shooting day saves and appears in the list
+- [x] Editing a shooting day updates correctly
+- [x] Shooting day detail renders with scenes (empty state if none)
+- [x] Adding a scene saves and appears in the list
+- [x] Editing a scene updates correctly
+- [x] Deleting a scene shows confirmation, then removes it
+- [x] Drag-and-drop reordering persists new `sortOrder` values
+- [x] Archiving moves the day to the archive list and makes it read-only
+- [x] Gap chip shows correct count on the shooting days list card
 
 ---
 
