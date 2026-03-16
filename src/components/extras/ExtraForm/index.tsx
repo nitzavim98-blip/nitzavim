@@ -3,22 +3,33 @@
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import imageCompression from 'browser-image-compression'
 import { createExtra, updateExtra } from '@/actions/extras'
 import { syncExtraAttributes } from '@/actions/attributes'
 import { syncAvailability } from '@/actions/availability'
+import { createPhoto } from '@/actions/photos'
 import Button from '@/components/ui/Button'
 import AttributePicker from '@/components/extras/AttributePicker'
 import AvailabilityPicker from '@/components/extras/AvailabilityPicker'
+import PhotoUploader, { type PhotoItem } from '@/components/extras/PhotoUploader'
 import type { Extra } from '@/db/schema/extras'
 import type { AttributeOption } from '@/db/schema/attribute-options'
 import type { AvailabilityRecord } from '@/lib/validations/extra'
 import styles from './ExtraForm.module.css'
+
+const COMPRESSION_OPTIONS = {
+  maxWidthOrHeight: 400,
+  useWebWorker: true,
+  fileType: 'image/webp' as const,
+  initialQuality: 0.7,
+}
 
 interface ExtraFormProps {
   extra?: Extra
   allOptions: AttributeOption[]
   initialAttributeIds?: number[]
   initialAvailability?: AvailabilityRecord[]
+  initialPhotos?: PhotoItem[]
 }
 
 const RELIABILITY_OPTIONS = [
@@ -32,6 +43,7 @@ export default function ExtraForm({
   allOptions,
   initialAttributeIds = [],
   initialAvailability = [],
+  initialPhotos = [],
 }: ExtraFormProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
@@ -50,6 +62,7 @@ export default function ExtraForm({
   const [selectedAttributeIds, setSelectedAttributeIds] = useState<number[]>(initialAttributeIds)
   const [availabilityRecords, setAvailabilityRecords] =
     useState<AvailabilityRecord[]>(initialAvailability)
+  const [pendingPhotoFiles, setPendingPhotoFiles] = useState<File[]>([])
 
   const [errors, setErrors] = useState<Record<string, string>>({})
 
@@ -68,6 +81,32 @@ export default function ExtraForm({
       hasCar,
       reliability,
       notes: notes || null,
+    }
+  }
+
+  async function uploadPendingPhotos(extraId: number, files: File[]) {
+    for (let i = 0; i < files.length; i++) {
+      try {
+        const compressed = await imageCompression(files[i], COMPRESSION_OPTIONS)
+
+        const presignRes = await fetch('/api/upload/presign', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ extraId }),
+        })
+        if (!presignRes.ok) continue
+
+        const { uploadUrl, key } = await presignRes.json()
+        await fetch(uploadUrl, {
+          method: 'PUT',
+          body: compressed,
+          headers: { 'Content-Type': 'image/webp' },
+        })
+
+        await createPhoto({ extraId, r2Key: key, sortOrder: i })
+      } catch {
+        // Non-fatal: extra was created, skip failed photo
+      }
     }
   }
 
@@ -93,11 +132,15 @@ export default function ExtraForm({
 
       const extraId = result.data.id
 
-      // Sync attributes and availability in parallel
+      // Sync attributes and availability in parallel; upload pending photos sequentially
       await Promise.all([
         syncExtraAttributes(extraId, selectedAttributeIds),
         syncAvailability(extraId, availabilityRecords),
       ])
+
+      if (pendingPhotoFiles.length > 0) {
+        await uploadPendingPhotos(extraId, pendingPhotoFiles)
+      }
 
       toast.success(extra ? 'הניצב עודכן בהצלחה' : 'הניצב נוסף בהצלחה')
       router.push('/extras')
@@ -278,6 +321,16 @@ export default function ExtraForm({
         <AvailabilityPicker
           records={availabilityRecords}
           onChange={setAvailabilityRecords}
+        />
+      </div>
+
+      {/* Photos */}
+      <div className={styles.field}>
+        <span className={styles.label}>תמונות</span>
+        <PhotoUploader
+          extraId={extra?.id}
+          initialPhotos={initialPhotos}
+          onPendingFilesChange={setPendingPhotoFiles}
         />
       </div>
 

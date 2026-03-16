@@ -12,9 +12,10 @@ const PAGE_SIZE = 50
 
 interface ExtrasListProps {
   extras: Extra[]
+  primaryPhotoUrls?: Record<number, string>
 }
 
-export default function ExtrasList({ extras }: ExtrasListProps) {
+export default function ExtrasList({ extras, primaryPhotoUrls = {} }: ExtrasListProps) {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
 
@@ -72,7 +73,11 @@ export default function ExtrasList({ extras }: ExtrasListProps) {
       {/* Rows */}
       <div className={styles.list}>
         {paginated.map((extra) => (
-          <ExtraRow key={extra.id} extra={extra} />
+          <ExtraRow
+            key={extra.id}
+            extra={extra}
+            thumbnailUrl={primaryPhotoUrls[extra.id]}
+          />
         ))}
       </div>
 

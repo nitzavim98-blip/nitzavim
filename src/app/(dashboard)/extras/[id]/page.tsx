@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import { getExtraWithDetails } from '@/actions/extras'
 import { getAttributeOptions } from '@/actions/attributes'
+import { getPhotosByExtraId, getPhotoUrlsMap } from '@/actions/photos'
 import ExtraForm from '@/components/extras/ExtraForm'
 import styles from './edit.module.css'
 
@@ -16,15 +17,25 @@ export default async function EditExtraPage({ params }: EditExtraPageProps) {
 
   if (isNaN(extraId)) notFound()
 
-  const [detailsResult, optionsResult] = await Promise.all([
+  const [detailsResult, optionsResult, photosResult] = await Promise.all([
     getExtraWithDetails(extraId),
     getAttributeOptions(),
+    getPhotosByExtraId(extraId),
   ])
 
   if ('error' in detailsResult) notFound()
 
   const { extra, attributes, availability } = detailsResult.data
   const allOptions = 'data' in optionsResult ? optionsResult.data : []
+  const existingPhotos = photosResult.data
+
+  const urlMap = await getPhotoUrlsMap(existingPhotos.map((p) => p.r2Key))
+  const initialPhotos = existingPhotos.map((p) => ({
+    id: p.id,
+    r2Key: p.r2Key,
+    sortOrder: p.sortOrder,
+    url: urlMap[p.r2Key] ?? '',
+  }))
 
   const initialAttributeIds = attributes.map((a) => a.id)
   const initialAvailability = availability.map((a) => ({
@@ -49,6 +60,7 @@ export default async function EditExtraPage({ params }: EditExtraPageProps) {
         allOptions={allOptions}
         initialAttributeIds={initialAttributeIds}
         initialAvailability={initialAvailability}
+        initialPhotos={initialPhotos}
       />
     </div>
   )

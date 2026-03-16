@@ -399,7 +399,7 @@ src/components/ui/Tag/
 
 ---
 
-## Phase 4 — Photo System
+## Phase 4 — Photo System ✅ DONE
 
 **Goal**: Director can upload, view, reorder, and delete photos for each extra. Photos are stored in Cloudflare R2. The extra row shows the primary photo as a thumbnail.
 
@@ -468,13 +468,13 @@ src/components/extras/PhotoUploader/
 
 ### 4.7 Acceptance Criteria
 
-- [ ] Uploading a photo compresses it client-side before sending
-- [ ] Photo appears in the uploader preview after upload
-- [ ] Primary photo (`sortOrder = 0`) appears as thumbnail in extras list
-- [ ] Photos can be reordered by drag; new order persists after page reload
-- [ ] Deleting a photo removes it from R2 and DB; thumbnail updates
-- [ ] Attempting to upload a 6th photo is blocked with an error toast
-- [ ] Placeholder silhouette shown when extra has no photos
+- [x] Uploading a photo compresses it client-side before sending
+- [x] Photo appears in the uploader preview after upload
+- [x] Primary photo (`sortOrder = 0`) appears as thumbnail in extras list
+- [x] Photos can be reordered by drag; new order persists after page reload
+- [x] Deleting a photo removes it from R2 and DB; thumbnail updates
+- [x] Attempting to upload a 6th photo is blocked with an error toast
+- [x] Placeholder silhouette shown when extra has no photos
 
 ---
 

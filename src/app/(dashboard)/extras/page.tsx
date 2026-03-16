@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
 import { getExtras } from '@/actions/extras'
+import { getPrimaryPhotoUrlsByExtraIds } from '@/actions/photos'
 import ExtrasList from '@/components/extras/ExtrasList'
 import { ExtraRowSkeleton } from '@/components/ui/Skeleton'
 import Button from '@/components/ui/Button'
@@ -16,7 +17,10 @@ async function ExtrasContent() {
     )
   }
 
-  return <ExtrasList extras={result.data} />
+  const extraIds = result.data.map((e) => e.id)
+  const primaryPhotoUrls = await getPrimaryPhotoUrlsByExtraIds(extraIds)
+
+  return <ExtrasList extras={result.data} primaryPhotoUrls={primaryPhotoUrls} />
 }
 
 function ExtrasLoading() {

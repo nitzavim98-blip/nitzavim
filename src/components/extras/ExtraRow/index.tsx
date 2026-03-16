@@ -38,9 +38,10 @@ interface ExtraDetails {
 
 interface ExtraRowProps {
   extra: Extra
+  thumbnailUrl?: string
 }
 
-export default function ExtraRow({ extra }: ExtraRowProps) {
+export default function ExtraRow({ extra, thumbnailUrl }: ExtraRowProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
   const [isFavorite, setIsFavorite] = useState(extra.isFavorite)
@@ -246,7 +247,12 @@ export default function ExtraRow({ extra }: ExtraRowProps) {
 
           {/* Thumbnail */}
           <div className={styles.thumbnail} aria-hidden="true">
-            <UserCircle2 size={36} color="var(--color-text-muted)" />
+            {thumbnailUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={thumbnailUrl} alt="" className={styles.thumbnailImg} />
+            ) : (
+              <UserCircle2 size={36} color="var(--color-text-muted)" />
+            )}
           </div>
         </div>
 
