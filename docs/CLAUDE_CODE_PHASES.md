@@ -45,7 +45,7 @@ Before starting any phase:
 
 ---
 
-## Phase 1 — Foundation
+## Phase 1 — Foundation ✅ DONE
 
 **Goal**: A working Next.js app with Google auth, database connected, layout shell rendered, and the login page functional. Every authenticated page redirects to login if unauthenticated.
 
@@ -166,12 +166,12 @@ Seed `attribute_options` with the 26 pre-seeded values from `CLAUDE.md` in the m
 
 ### 1.6 Acceptance Criteria
 
-- [ ] `npm run dev` starts without errors
-- [ ] Navigating to `/dashboard` redirects to `/login` when unauthenticated
-- [ ] Google sign-in works; session persists 30 days
-- [ ] After first sign-in, a `productions` row exists for the user
-- [ ] Sidebar renders with correct nav items; active state works
-- [ ] MobileNav renders on mobile viewports
+- [x] `npm run dev` starts without errors
+- [x] Navigating to `/dashboard` redirects to `/login` when unauthenticated
+- [x] Google sign-in works; session persists 30 days
+- [x] After first sign-in, a `productions` row exists for the user
+- [x] Sidebar renders with correct nav items; active state works
+- [x] MobileNav renders on mobile viewports
 
 ---
 

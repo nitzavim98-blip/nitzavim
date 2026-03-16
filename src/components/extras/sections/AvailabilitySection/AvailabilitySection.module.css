@@ -1,0 +1,104 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.legendDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.dotAvailable {
+  background: var(--color-success-subtle);
+  border: 1px solid var(--color-success);
+}
+
+.dotUnavailable {
+  background: var(--color-danger-subtle);
+  border: 1px solid var(--color-danger);
+}
+
+.legendLabel {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-inline-end: var(--space-3);
+}
+
+/* Months */
+.months {
+  display: flex;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.month {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.monthTitle {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: center;
+}
+
+/* Calendar grid — 7 columns */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 32px);
+  gap: 2px;
+}
+
+.dayHeader {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+.day {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: var(--color-text);
+  border: 1px solid transparent;
+}
+
+.available {
+  background: var(--color-success-subtle);
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.unavailable {
+  background: var(--color-danger-subtle);
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.today {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}

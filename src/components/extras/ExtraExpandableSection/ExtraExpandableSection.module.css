@@ -1,0 +1,16 @@
+.wrapper {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 300ms ease-out, opacity 200ms ease-in;
+  background: var(--color-bg);
+}
+
+.open {
+  max-height: 800px;
+  opacity: 1;
+}
+
+.inner {
+  padding: var(--space-4);
+}

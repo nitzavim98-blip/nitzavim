@@ -1,0 +1,211 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 600px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: 0.03em;
+}
+
+.required {
+  color: var(--color-danger);
+  margin-inline-start: 2px;
+}
+
+.input {
+  height: 40px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border-input);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  background: var(--color-card);
+  font-family: inherit;
+  transition: border-color 150ms ease;
+  text-align: right;
+}
+
+.input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-color: var(--color-primary);
+}
+
+.inputError {
+  border-color: var(--color-danger);
+}
+
+.errorMsg {
+  font-size: 0.75rem;
+  color: var(--color-danger);
+}
+
+/* Gender toggle */
+.genderToggle {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--color-border-input);
+  border-radius: 4px;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.genderOption {
+  padding: var(--space-2) var(--space-6);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  background: var(--color-card);
+  transition: background-color 150ms ease, color 150ms ease;
+  border-inline-start: 1px solid var(--color-border-input);
+}
+
+.genderOption:first-child {
+  border-inline-start: none;
+}
+
+.genderOption:hover {
+  background: var(--color-bg);
+}
+
+.genderActive {
+  background: var(--color-primary-subtle);
+  color: var(--color-primary-text);
+  font-weight: 700;
+}
+
+/* Hidden radio/checkbox for custom styling */
+.hiddenRadio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* 3-column row */
+.row3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-4);
+}
+
+/* Checkbox */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}
+
+/* Reliability group */
+.reliabilityGroup {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--color-border-input);
+  border-radius: 4px;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.reliabilityOption {
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  background: var(--color-card);
+  transition: background-color 150ms ease, color 150ms ease;
+  border-inline-start: 1px solid var(--color-border-input);
+}
+
+.reliabilityOption:first-child {
+  border-inline-start: none;
+}
+
+.reliabilityOption:hover {
+  background: var(--color-bg);
+}
+
+.reliabilityActive {
+  background: var(--color-primary-subtle);
+  color: var(--color-primary-text);
+  font-weight: 700;
+}
+
+/* Textarea */
+.textarea {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-input);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  background: var(--color-card);
+  font-family: inherit;
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color 150ms ease;
+  text-align: right;
+}
+
+.textarea:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-color: var(--color-primary);
+}
+
+/* Coming soon */
+.comingSoon {
+  padding-block-start: var(--space-2);
+  border-block-start: 1px solid var(--color-border);
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: var(--space-3);
+  padding-block-start: var(--space-4);
+  border-block-start: 1px solid var(--color-border);
+}
+
+@media (max-width: 767px) {
+  .row3 {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .genderToggle,
+  .reliabilityGroup {
+    width: 100%;
+  }
+
+  .genderOption,
+  .reliabilityOption {
+    flex: 1;
+    text-align: center;
+  }
+}
