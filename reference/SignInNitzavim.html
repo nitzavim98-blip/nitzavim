@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-white" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign In - Nitzavim Film Production</title>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              purple: '#5D3FD3',
+              'purple-dark': '#4B32A8',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="h-full overflow-hidden">
+<!-- BEGIN: Main Layout -->
+<main class="flex min-h-full">
+<!-- BEGIN: Left Section (Hero Image) -->
+<!-- This section contains the atmospheric film set image and is hidden on small mobile screens -->
+<section class="hidden lg:block lg:w-1/2 relative">
+<img alt="A busy film set with high-end cameras and professional lighting gear" class="absolute inset-0 h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdjcRdWI9_c4FxS0Wvnyq4JYN5FQnio0V1k4lZd1_Jue81FVF3NE67U5MIoElRhmyiXoaRMHQr4QcKh_mabvmCZQGWs7RDN1mS9n5L6B-JlVW_rZp73oWtLhHZBESMmeaKUBBw7Zff7MKqoHvyPoIrai3-9Xu3YmbLc3BDIfdb5k21DhCiCfx5ca-ZWYw5-BWR-L_lOCDicr_1CPN5BSUtTFp3O4AYo0Tmsb8YVlnjV-j2LraOdnYakCIKAPMIAh1M1eEHqft3-9Qs"/>
+<!-- Overlay to ensure the image feels integrated -->
+<div class="absolute inset-0 bg-brand-purple/10 mix-blend-multiply"></div>
+<!-- Optional Branding Overlay for visual weight -->
+<div class="absolute bottom-12 left-12 text-white z-10">
+<h2 class="text-4xl font-bold tracking-tight">Streamline your production.</h2>
+<p class="mt-2 text-lg opacity-90">Manage extras, schedules, and sets with Nitzavim.</p>
+</div>
+</section>
+<!-- END: Left Section (Hero Image) -->
+<!-- BEGIN: Right Section (Sign In Form) -->
+<section class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-white">
+<div class="mx-auto w-full max-w-sm lg:w-96">
+<!-- BEGIN: Header & Logo -->
+<div class="text-center lg:text-left">
+<!-- Logo Placeholder -->
+<div class="flex items-center justify-center lg:justify-start mb-8" data-purpose="brand-logo">
+<div class="h-10 w-10 bg-brand-purple rounded-lg flex items-center justify-center mr-3">
+<span class="text-white font-bold text-xl">N</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-gray-900">Nitzavim</h1>
+</div>
+<h2 class="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
+<p class="mt-2 text-sm text-gray-500">
+            Welcome back to your production dashboard.
+          </p>
+</div>
+<!-- END: Header & Logo -->
+<div class="mt-10">
+<div>
+<!-- BEGIN: Social Sign In -->
+<div class="grid grid-cols-1 gap-4">
+<button class="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent transition-colors" data-purpose="google-signin-btn" type="button">
+<!-- SVG Google Icon -->
+<svg aria-hidden="true" class="h-5 w-5" viewbox="0 0 24 24">
+<path d="M12.0003 4.75C13.7703 4.75 15.3553 5.36002 16.6053 6.54998L20.0303 3.125C17.9502 1.19 15.2353 0 12.0003 0C7.31028 0 3.25527 2.69 1.28027 6.60998L5.27028 9.70498C6.21525 6.86002 8.87028 4.75 12.0003 4.75Z" fill="#EA4335"></path>
+<path d="M23.49 12.275C23.49 11.49 23.415 10.73 23.3 10H12V14.51H18.47C18.18 15.99 17.34 17.25 16.08 18.1L19.945 21.1C22.2 19.01 23.49 15.92 23.49 12.275Z" fill="#4285F4"></path>
+<path d="M5.26498 14.2949C5.02498 13.5699 4.88501 12.7999 4.88501 11.9999C4.88501 11.1999 5.01998 10.4299 5.26498 9.7049L1.275 6.60986C0.46 8.22986 0 10.0599 0 11.9999C0 13.9399 0.46 15.7699 1.275 17.3899L5.26498 14.2949Z" fill="#FBBC05"></path>
+<path d="M12.0003 24C15.2403 24 17.9653 22.935 19.9453 21.095L16.0803 18.095C15.0053 18.82 13.6203 19.25 12.0003 19.25C8.87028 19.25 6.21525 17.14 5.27028 14.295L1.28027 17.39C3.25527 21.31 7.31028 24 12.0003 24Z" fill="#34A853"></path>
+</svg>
+<span class="text-sm font-semibold leading-6">Sign in with Google</span>
+</button>
+</div>
+<!-- END: Social Sign In -->
+<!-- BEGIN: Form Divider -->
+<div class="relative mt-8">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-gray-200"></div>
+</div>
+<div class="relative flex justify-center text-sm font-medium leading-6">
+<span class="bg-white px-6 text-gray-400">or sign in with email</span>
+</div>
+</div>
+<!-- END: Form Divider -->
+</div>
+<!-- BEGIN: Credentials Form -->
+<div class="mt-8">
+<form action="#" class="space-y-6" method="POST">
+<!-- Email Field -->
+<div>
+<label class="block text-sm font-medium leading-6 text-gray-900" for="email">Email address</label>
+<div class="mt-2">
+<input autocomplete="email" class="block w-full rounded-md border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-purple sm:text-sm sm:leading-6" id="email" name="email" placeholder="you@example.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div>
+<div class="flex items-center justify-between">
+<label class="block text-sm font-medium leading-6 text-gray-900" for="password">Password</label>
+<div class="text-sm">
+<a class="font-semibold text-brand-purple hover:text-brand-purple-dark" href="#">Forgot password?</a>
+</div>
+</div>
+<div class="mt-2">
+<input autocomplete="current-password" class="block w-full rounded-md border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-purple sm:text-sm sm:leading-6" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- Submit Button -->
+<div>
+<button class="flex w-full justify-center rounded-md bg-brand-purple px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-brand-purple-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-purple transition-all" type="submit">
+                  Sign In
+                </button>
+</div>
+</form>
+</div>
+<!-- END: Credentials Form -->
+<!-- BEGIN: Sign Up Footer -->
+<p class="mt-10 text-center text-sm text-gray-500">
+            Don't have an account?
+            <a class="font-semibold leading-6 text-brand-purple hover:text-brand-purple-dark" href="#">Sign up</a>
+</p>
+<!-- END: Sign Up Footer -->
+</div>
+</div>
+</section>
+<!-- END: Right Section (Sign In Form) -->
+</main>
+<!-- END: Main Layout -->
+<!-- BEGIN: Styles -->
+<style data-purpose="form-transitions">
+    /* Subtle transitions for input focuses */
+    input {
+      transition: all 0.2s ease-in-out;
+    }
+  </style>
+<!-- END: Styles -->
+</body></html><!-- IMAGES: /public/film_set.jpg (High-quality background image of a film set with cameras, lights, and extras.)
+-->

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nitzavim - Extras Management</title>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Lucide Icons (using standard CDN for icon usage) -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<style data-purpose="custom-transitions">
+    .expandable-content {
+      transition: max-height 0.3s ease-out, opacity 0.2s ease-in;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+    }
+    .expandable-content.active {
+      max-height: 800px;
+      opacity: 1;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+    .active-btn {
+      background-color: #f3f4f6;
+      border-radius: 0.5rem;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased">
+<!-- BEGIN: MainHeader -->
+<header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+<div class="flex items-center gap-8">
+<!-- Logo -->
+<div class="flex items-center gap-2 cursor-pointer" data-purpose="logo-container">
+<div class="w-8 h-8 bg-indigo-600 rounded flex items-center justify-center">
+<i class="text-white w-5 h-5" data-lucide="clapperboard"></i>
+</div>
+<span class="text-xl font-bold tracking-tight text-indigo-900">Nitzavim</span>
+</div>
+<!-- Navigation -->
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 hover:text-indigo-600 font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-indigo-600 border-b-2 border-indigo-600 px-1 py-5 font-medium" href="#">Extras</a>
+<a class="text-slate-500 hover:text-indigo-600 font-medium transition-colors" href="#">Scenes</a>
+<a class="text-slate-500 hover:text-indigo-600 font-medium transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<!-- Profile Section -->
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-400 hover:text-slate-600">
+<i class="w-5 h-5" data-lucide="bell"></i>
+</button>
+<div class="w-10 h-10 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center cursor-pointer overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcbauHwjWOv0kcgxcCya0hlq8JD0xvyIaoi2S2sv2DZsYq01I3tBj0RTHZGtomvSDG-AJp627BdiJg3sEu9VcgAWJEYfNcSBj_ksaI0CfOhsE-FrDzKzolGalAF4Esnrjt1dwE-rQjb0n2_0MfxN05pfJqyCto5CfgDlRxcv2SQs7C3XBG_cCM8CYJjxvJ-ZzpLov0oyRJMNw9gAn1YORhxNKB2RFDQGDKoRjO01QtYBqQDN-zaNEzkyW8zlpLR0rVAyGpbqS96L4h"/>
+</div>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: MainContent -->
+<main class="max-w-7xl mx-auto px-4 py-8">
+<!-- BEGIN: PageHeader -->
+<section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" data-purpose="management-controls">
+<div>
+<h1 class="text-2xl font-bold text-slate-800">Extras Management</h1>
+<p class="text-slate-500 text-sm">Manage your cast, availability, and physical traits.</p>
+</div>
+<div class="flex items-center gap-3">
+<!-- Search Bar -->
+<div class="relative">
+<i class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" data-lucide="search"></i>
+<input class="pl-10 pr-4 py-2 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-64 text-sm" placeholder="Search extras..." type="text"/>
+</div>
+<!-- Add Button -->
+<button class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm">
+<i class="w-4 h-4" data-lucide="plus"></i>
+<span>Add Extra</span>
+</button>
+</div>
+</section>
+<!-- END: PageHeader -->
+<!-- BEGIN: ExtrasTable -->
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden" data-purpose="extras-list">
+<!-- Table Header (Visual) -->
+<div class="grid grid-cols-[80px_100px_200px_1fr_120px] items-center px-6 py-3 bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+<div>Photo</div>
+<div>Contact</div>
+<div>Details</div>
+<div class="text-center">Information Views</div>
+<div class="text-right">Status</div>
+</div>
+<!-- Row 1 -->
+<div class="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+<div class="grid grid-cols-[80px_100px_200px_1fr_120px] items-center px-6 py-4">
+<!-- Thumbnail -->
+<div class="w-12 h-12 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden">
+<img alt="Extra Portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUaR1Kh5BhbmIdjctipz1FXBxYsV4bE_MW70IdGO2w2jFMcza3pVYzv2Ea0-e1BLbCL20ILjYHNzh4o4b8fS2Qf9jtA2VkaQT5OEH7c1xfPYDhij3Ed_gQkeZwlbm0_LeUtqkYf2q3OtRGL-V04w6xhG8BvsZDK3Yeqn4onQWJn4tLgF0tDYv1CjSvYbfRrw9IeOjruhMiQ_q-MXfAhr7q4bYHW8OE2Gw-N7Xto_w1O6TwLCqtXJr8PmK8WtjbGNprC4mBCNWWVEP4"/>
+</div>
+<!-- Phone Actions -->
+<div class="flex items-center gap-2">
+<a class="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors" href="tel:12345678" title="Call">
+<i class="w-5 h-5" data-lucide="phone"></i>
+</a>
+<a class="p-2 text-green-600 hover:bg-green-50 rounded-full transition-colors" href="https://wa.me/12345678" target="_blank" title="WhatsApp">
+<i class="w-5 h-5" data-lucide="message-square"></i>
+</a>
+</div>
+<!-- Basic Details -->
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-bold text-slate-800">Johnathan Doe</span>
+<i class="w-4 h-4 text-indigo-500" data-lucide="car" title="Has Car"></i>
+</div>
+<span class="text-sm text-slate-500">Age: 34</span>
+</div>
+<!-- Info Expand Buttons -->
+<div class="flex items-center justify-center gap-4">
+<button class="p-2 text-slate-500 hover:text-indigo-600 transition-colors flex flex-col items-center gap-1" onclick="toggleSection('row-1-info', this)" title="More Info">
+<i class="w-5 h-5" data-lucide="info"></i>
+<span class="text-[10px] uppercase font-bold">Bio</span>
+</button>
+<button class="active-btn text-indigo-600 p-2 transition-colors flex flex-col items-center gap-1" onclick="toggleSection('row-1-scenes', this)" title="Scenes">
+<i class="w-5 h-5" data-lucide="clapperboard"></i>
+<span class="text-[10px] uppercase font-bold">Scenes</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-indigo-600 transition-colors flex flex-col items-center gap-1" onclick="toggleSection('row-1-availability', this)" title="Availability">
+<i class="w-5 h-5" data-lucide="calendar"></i>
+<span class="text-[10px] uppercase font-bold">Dates</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-indigo-600 transition-colors flex flex-col items-center gap-1" onclick="toggleSection('row-1-traits', this)" title="Physical Traits">
+<i class="w-5 h-5" data-lucide="accessibility"></i>
+<span class="text-[10px] uppercase font-bold">Traits</span>
+</button>
+</div>
+<!-- Status -->
+<div class="flex items-center justify-end gap-3">
+<i class="w-5 h-5 text-blue-500" data-lucide="user" title="Male"></i>
+<button class="text-amber-400 hover:text-amber-500 transition-colors">
+<i class="w-5 h-5 fill-amber-400" data-lucide="star"></i>
+</button>
+<button class="text-slate-400 hover:text-slate-600">
+<i class="w-5 h-5" data-lucide="more-vertical"></i>
+</button>
+</div>
+</div>
+<!-- Row 1 Expandable Sections -->
+<div class="expandable-content px-20 bg-slate-50/50" id="row-1-info">
+<div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+<h4 class="font-semibold text-slate-700 mb-2">Notes &amp; Reliability</h4>
+<p class="text-sm text-slate-600 mb-3 leading-relaxed">Experienced in crowd scenes, punctual and professional. Has a collection of vintage business casual outfits.</p>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+<i class="w-3 h-3 mr-1" data-lucide="check-circle"></i> Highly Reliable
+            </span>
+</div>
+</div>
+<div class="expandable-content active px-20 bg-slate-50/50" id="row-1-scenes">
+<div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+<h4 class="font-semibold text-slate-700 mb-3 flex items-center gap-2">
+<i class="w-4 h-4 text-indigo-600" data-lucide="film"></i>
+Assigned Scenes Participation
+</h4>
+<div class="space-y-3">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
+<div class="flex items-start gap-3">
+<div class="bg-indigo-100 text-indigo-700 w-10 h-10 rounded flex items-center justify-center flex-shrink-0 font-bold text-sm">#12</div>
+<div>
+<div class="font-bold text-slate-800 text-sm">Coffee Shop Morning</div>
+<div class="flex items-center gap-1.5 text-xs text-indigo-600 mt-0.5">
+<i class="w-3 h-3" data-lucide="user-square"></i>
+<span class="font-medium">Role: Cafe Patron</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-start md:items-end gap-1">
+<span class="text-[10px] uppercase font-bold text-slate-400">Outfit Details</span>
+<div class="flex items-center gap-1.5 text-xs text-slate-600 bg-white px-2 py-1 rounded border border-slate-200">
+<i class="w-3 h-3 text-slate-400" data-lucide="shirt"></i>
+<span>Blue shirt, dark jeans, casual shoes</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
+<div class="flex items-start gap-3">
+<div class="bg-indigo-100 text-indigo-700 w-10 h-10 rounded flex items-center justify-center flex-shrink-0 font-bold text-sm">#45</div>
+<div>
+<div class="font-bold text-slate-800 text-sm">Subway Commute</div>
+<div class="flex items-center gap-1.5 text-xs text-indigo-600 mt-0.5">
+<i class="w-3 h-3" data-lucide="user-square"></i>
+<span class="font-medium">Role: Passenger</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-start md:items-end gap-1">
+<span class="text-[10px] uppercase font-bold text-slate-400">Outfit Details</span>
+<div class="flex items-center gap-1.5 text-xs text-slate-600 bg-white px-2 py-1 rounded border border-slate-200">
+<i class="w-3 h-3 text-slate-400" data-lucide="shirt"></i>
+<span>Gray overcoat, business trousers, umbrella</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="expandable-content px-20 bg-slate-50/50" id="row-1-availability">
+<div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-semibold text-slate-700">Availability (October 2023)</h4>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5 text-xs text-slate-500">
+<div class="w-3 h-3 rounded bg-green-100 border border-green-200"></div> Available
+</div>
+<div class="flex items-center gap-1.5 text-xs text-slate-500">
+<div class="w-3 h-3 rounded bg-red-100 border border-red-200"></div> Unavailable
+</div>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-2">
+<!-- Week 1 Header -->
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Mon</div>
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Tue</div>
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Wed</div>
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Thu</div>
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Fri</div>
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Sat</div>
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Sun</div>
+<!-- Empty slots for previous month -->
+<div class="h-10 border border-transparent"></div>
+<div class="h-10 border border-transparent"></div>
+<!-- Calendar Days -->
+<div class="flex flex-col items-center justify-center h-10 rounded bg-green-100 text-green-800 border border-green-200 relative">
+<span class="text-xs font-bold">1</span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-green-100 text-green-800 border border-green-200">
+<span class="text-xs font-bold">2</span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-red-100 text-red-800 border border-red-200">
+<span class="text-xs font-bold">3</span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-red-100 text-red-800 border border-red-200">
+<span class="text-xs font-bold">4</span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-green-100 text-green-800 border border-green-200">
+<span class="text-xs font-bold">5</span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-green-100 text-green-800 border border-green-200">
+<span class="text-xs font-bold">6</span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-green-100 text-green-800 border border-green-200">
+<span class="text-xs font-bold">7</span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-red-100 text-red-800 border border-red-200">
+<span class="text-xs font-bold">8</span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-red-100 text-red-800 border border-red-200">
+<span class="text-xs font-bold">9</span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-green-100 text-green-800 border border-green-200">
+<span class="text-xs font-bold">10</span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-green-100 text-green-800 border border-green-200">
+<span class="text-xs font-bold">11</span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-green-100 text-green-800 border border-green-200">
+<span class="text-xs font-bold">12</span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-red-100 text-red-800 border border-red-200">
+<span class="text-xs font-bold">13</span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-green-100 text-green-800 border border-green-200 ring-2 ring-indigo-500">
+<span class="text-xs font-bold">14</span>
+<span class="absolute top-0.5 right-0.5 w-1.5 h-1.5 bg-indigo-500 rounded-full"></span>
+</div>
+<div class="flex flex-col items-center justify-center h-10 rounded bg-green-100 text-green-800 border border-green-200">
+<span class="text-xs font-bold">15</span>
+</div>
+</div>
+</div>
+</div>
+<div class="expandable-content px-20 bg-slate-50/50" id="row-1-traits">
+<div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+<h4 class="font-semibold text-slate-700 mb-3">Physical Attributes</h4>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs rounded-full border border-blue-100">Height: 182cm</span>
+<span class="px-3 py-1 bg-amber-50 text-amber-700 text-xs rounded-full border border-amber-100">Hair: Brown</span>
+<span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs rounded-full border border-emerald-100">Eyes: Green</span>
+<span class="px-3 py-1 bg-purple-50 text-purple-700 text-xs rounded-full border border-purple-100">Suit: 42R</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+<div class="grid grid-cols-[80px_100px_200px_1fr_120px] items-center px-6 py-4">
+<div class="w-12 h-12 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden">
+<img alt="Extra Portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGuf0NxqqGwuSC5q5XemV6C4kldWPUvMHSNNGTb_czk4czyr69Z1dDba8hgNXU7EF15JMUMAt_WFBghF0twk01dT8ejbVbD6A4wk6QjCMyN-VvNogDA7G8sIg1VMCMyBZJFp24_hAlxNKzzB4aHck7Z3-RIpsc9RuN9I-hFs5bWbf4aeyDipXGhd6nyIVILW4YCBU5Nwa5q0IDTkxtjkorXrmVZMzdq9W-yDM8ojnYqFpKxB8CPgdQmaBhy4MPZP7B_6OsGhorUh_a"/>
+</div>
+<div class="flex items-center gap-2">
+<a class="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors" href="tel:98765432">
+<i class="w-5 h-5" data-lucide="phone"></i>
+</a>
+<a class="p-2 text-green-600 hover:bg-green-50 rounded-full transition-colors" href="https://wa.me/98765432" target="_blank">
+<i class="w-5 h-5" data-lucide="message-square"></i>
+</a>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-bold text-slate-800">Sarah Williams</span>
+</div>
+<span class="text-sm text-slate-500">Age: 27</span>
+</div>
+<div class="flex items-center justify-center gap-4">
+<button class="p-2 text-slate-500 hover:text-indigo-600 transition-colors flex flex-col items-center gap-1" onclick="toggleSection('row-2-info', this)">
+<i class="w-5 h-5" data-lucide="info"></i>
+<span class="text-[10px] uppercase font-bold">Bio</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-indigo-600 transition-colors flex flex-col items-center gap-1" onclick="toggleSection('row-2-scenes', this)">
+<i class="w-5 h-5" data-lucide="clapperboard"></i>
+<span class="text-[10px] uppercase font-bold">Scenes</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-indigo-600 transition-colors flex flex-col items-center gap-1" onclick="toggleSection('row-2-availability', this)">
+<i class="w-5 h-5" data-lucide="calendar"></i>
+<span class="text-[10px] uppercase font-bold">Dates</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-indigo-600 transition-colors flex flex-col items-center gap-1" onclick="toggleSection('row-2-traits', this)">
+<i class="w-5 h-5" data-lucide="accessibility"></i>
+<span class="text-[10px] uppercase font-bold">Traits</span>
+</button>
+</div>
+<div class="flex items-center justify-end gap-3">
+<i class="w-5 h-5 text-pink-500" data-lucide="user" title="Female"></i>
+<button class="text-slate-300 hover:text-amber-500 transition-colors">
+<i class="w-5 h-5" data-lucide="star"></i>
+</button>
+<button class="text-slate-400 hover:text-slate-600">
+<i class="w-5 h-5" data-lucide="more-vertical"></i>
+</button>
+</div>
+</div>
+<!-- Row 2 Scenes (Example empty state) -->
+<div class="expandable-content px-20 bg-slate-50/50" id="row-2-scenes">
+<div class="bg-white p-8 rounded-lg border border-slate-200 border-dashed shadow-sm text-center">
+<i class="w-8 h-8 text-slate-300 mx-auto mb-2" data-lucide="film"></i>
+<p class="text-sm text-slate-500">Not appeared in scenes yet</p>
+</div>
+</div>
+</div>
+</div>
+<!-- END: ExtrasTable -->
+</main>
+<!-- END: MainContent -->
+<script data-purpose="interaction-logic">
+    /**
+     * Toggles visibility of expansion sections in the table.
+     * Ensures only one section is open at a time globally for simplicity.
+     */
+    function toggleSection(sectionId, btn) {
+      const target = document.getElementById(sectionId);
+      const isOpen = target.classList.contains('active');
+      
+      // Close all sections in the same row context (or globally based on behavior)
+      const row = btn.closest('.border-b');
+      const allSections = row.querySelectorAll('.expandable-content');
+      allSections.forEach(sec => sec.classList.remove('active'));
+      
+      // Remove active button styling in the same row
+      const allBtns = row.querySelectorAll('button[onclick^="toggleSection"]');
+      allBtns.forEach(b => {
+        b.classList.remove('active-btn', 'text-indigo-600');
+        b.classList.add('text-slate-500');
+      });
+
+      // If it wasn't open, open it
+      if (!isOpen) {
+        target.classList.add('active');
+        btn.classList.add('active-btn', 'text-indigo-600');
+        btn.classList.remove('text-slate-500');
+      }
+    }
+
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+</body></html>

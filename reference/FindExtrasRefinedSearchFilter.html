@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4f46e5",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.375rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Nitzavim - Find Extras</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 bg-white dark:bg-slate-900 px-6 md:px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">movie_filter</span>
+</div>
+<h2 class="text-indigo-900 dark:text-white text-xl font-bold leading-tight tracking-tight">Nitzavim</h2>
+</div>
+<div class="flex flex-1 justify-end items-center gap-8">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold leading-normal border-b-2 border-primary pb-5 -mb-[1.125rem]" href="#">Extras</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Scenes</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-400 hover:text-slate-600 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-slate-100 rounded-full border border-slate-200 p-0.5">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9" data-alt="User profile avatar circle" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDcbauHwjWOv0kcgxcCya0hlq8JD0xvyIaoi2S2sv2DZsYq01I3tBj0RTHZGtomvSDG-AJp627BdiJg3sEu9VcgAWJEYfNcSBj_ksaI0CfOhsE-FrDzKzolGalAF4Esnrjt1dwE-rQjb0n2_0MfxN05pfJqyCto5CfgDlRxcv2SQs7C3XBG_cCM8CYJjxvJ-ZzpLov0oyRJMNw9gAn1YORhxNKB2RFDQGDKoRjO01QtYBqQDN-zaNEzkyW8zlpLR0rVAyGpbqS96L4h");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col max-w-7xl mx-auto w-full px-4 md:px-10 py-8 gap-8">
+<!-- Filter Section -->
+<section class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex flex-col gap-6">
+<!-- Search Bar -->
+<div class="w-full">
+<label class="flex flex-col w-full">
+<div class="flex w-full items-stretch rounded-lg h-11 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
+<div class="text-slate-400 flex items-center justify-center pl-4">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="flex w-full min-w-0 flex-1 bg-transparent border-none focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-400 px-3 text-sm font-normal" placeholder="Search extras by name, skill or keyword" value=""/>
+</div>
+</label>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Primary Filters -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<div>
+<h3 class="text-slate-800 dark:text-white text-sm font-bold mb-4">Physical Attributes</h3>
+<div class="flex gap-2 flex-wrap">
+<button class="flex h-8 items-center justify-center gap-x-2 rounded-full bg-primary text-white px-4 text-xs font-semibold">Beard</button>
+<button class="flex h-8 items-center justify-center gap-x-2 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:text-primary transition-colors px-4 text-xs font-semibold">Glasses</button>
+<button class="flex h-8 items-center justify-center gap-x-2 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:text-primary transition-colors px-4 text-xs font-semibold">Tattoo</button>
+<button class="flex h-8 items-center justify-center gap-x-2 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:text-primary transition-colors px-4 text-xs font-semibold">Long Hair</button>
+<button class="flex h-8 items-center justify-center gap-x-2 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:text-primary transition-colors px-4 text-xs font-semibold">Athletic</button>
+<button class="flex h-8 items-center justify-center gap-x-2 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:text-primary transition-colors px-4 text-xs font-semibold">Piercings</button>
+<button class="flex h-8 items-center justify-center gap-x-2 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:text-primary transition-colors px-4 text-xs font-semibold">Short Hair</button>
+<button class="flex h-8 items-center justify-center gap-x-2 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:border-primary/50 hover:text-primary transition-colors px-4 text-xs font-semibold">Muscular</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<h3 class="text-slate-400 dark:text-slate-500 text-[10px] font-bold mb-3 uppercase tracking-wider">Age Range</h3>
+<div class="flex items-center gap-4">
+<input class="w-full h-10 rounded-lg bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-sm focus:ring-primary focus:border-primary" placeholder="18" type="number"/>
+<span class="text-slate-300">—</span>
+<input class="w-full h-10 rounded-lg bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-sm focus:ring-primary focus:border-primary" placeholder="65" type="number"/>
+</div>
+</div>
+<div>
+<h3 class="text-slate-400 dark:text-slate-500 text-[10px] font-bold mb-3 uppercase tracking-wider">Gender</h3>
+<div class="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
+<button class="flex-1 py-1.5 text-xs font-semibold rounded-md bg-white dark:bg-slate-700 shadow-sm text-primary">All</button>
+<button class="flex-1 py-1.5 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">Male</button>
+<button class="flex-1 py-1.5 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">Female</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Secondary Filters -->
+<div class="lg:col-span-4 border-l border-slate-100 dark:border-slate-800 pl-0 lg:pl-8 flex flex-col gap-6">
+<div>
+<h3 class="text-slate-400 dark:text-slate-500 text-[10px] font-bold mb-3 uppercase tracking-wider">Available on Date</h3>
+<div class="relative">
+<input class="w-full h-10 rounded-lg bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-sm pl-10 focus:ring-primary focus:border-primary" type="date"/>
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-lg">calendar_month</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">directions_car</span>
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Has own vehicle</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-10 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<button class="w-full bg-primary hover:bg-indigo-700 text-white font-bold py-2.5 rounded-lg transition-all shadow-md shadow-primary/10 text-sm">
+                                Apply 12 Filters
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Results Section -->
+<div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+<div>
+<h2 class="text-2xl font-bold text-slate-800 dark:text-white">Search Results <span class="text-slate-400 font-normal text-lg ml-2">(248)</span></h2>
+<p class="text-slate-500 text-xs mt-1">Manage your cast and view available profiles.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Card 1: Marcus Thorne -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden group hover:shadow-lg transition-all hover:-translate-y-1 flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Portrait of a male extra with beard" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3R06m5f1Qk0lC_rK0Zf9w-mN8x7Q9yL4b2P0S1R2T3U4V5W6X7Y8Z9a0b1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9u0v1w2x3y4z5A6B7C8D9E0F1G2H3I4J5K6L7M8N9O0P1Q2R3S4T5U6V7W8X9Y0Z1a2b3c4d5e6f7g8h9i0j"/>
+<div class="absolute top-3 right-3 flex gap-1">
+<span class="bg-indigo-600 text-white px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider shadow-sm">Top Rated</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-lg text-slate-800 dark:text-white leading-tight">Marcus Thorne, 32</h4>
+</div>
+<div class="flex items-center gap-3 text-slate-500 mb-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-blue-500">male</span>
+<span class="material-symbols-outlined text-[18px] text-indigo-500">directions_car</span>
+</div>
+<div class="w-px h-3 bg-slate-200 dark:bg-slate-700"></div>
+<span class="text-xs font-medium">London, UK</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 rounded text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide border border-indigo-100 dark:border-indigo-900/50">Beard</span>
+<span class="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 rounded text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide border border-indigo-100 dark:border-indigo-900/50">Athletic</span>
+<span class="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 rounded text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide border border-indigo-100 dark:border-indigo-900/50">Tattoo</span>
+</div>
+<button class="w-full mt-auto bg-indigo-50 hover:bg-primary hover:text-white text-primary font-bold py-2.5 rounded-lg transition-all text-xs border border-indigo-200/50 dark:bg-indigo-900/20 dark:border-indigo-800/50">
+                                Add to Scene
+                            </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden group hover:shadow-lg transition-all hover:-translate-y-1 flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Portrait of a female extra with long hair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYpgQvdwj5fVJx0ok5zjeUycPX5H8bivLadgFaz7N54a3-KhyeZo8z1ihvX0M83Fv-ko-_WKrVqgP18cacE6lsIMbbe_f_lhDjcf3pnOZceCEbjs1Qet2q-ZvTUp10uvQDh7GsnlpRaRbBup5Y0Ms9RzpkpcUzZbLIZBRFy5altOsfyZTb6xLkeYeMUnECmWswQNyqwCOkDMgq8o1EtlXaayAW7Wubjcm1bhkVvzjUsI1H_y287_-rfuG0eAfYrQDomCijVcXz3coU"/>
+<div class="absolute top-3 right-3">
+<span class="bg-emerald-500 text-white px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider shadow-sm">Available Now</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-lg text-slate-800 dark:text-white leading-tight">Elena Rossi, 27</h4>
+</div>
+<div class="flex items-center gap-3 text-slate-500 mb-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-pink-500">female</span>
+</div>
+<div class="w-px h-3 bg-slate-200 dark:bg-slate-700"></div>
+<span class="text-xs font-medium">Rome, IT</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 rounded text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide border border-indigo-100 dark:border-indigo-900/50">Long Hair</span>
+<span class="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 rounded text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide border border-indigo-100 dark:border-indigo-900/50">Piercings</span>
+</div>
+<button class="w-full mt-auto bg-indigo-50 hover:bg-primary hover:text-white text-primary font-bold py-2.5 rounded-lg transition-all text-xs border border-indigo-200/50 dark:bg-indigo-900/20 dark:border-indigo-800/50">
+                                Add to Scene
+                            </button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden group hover:shadow-lg transition-all hover:-translate-y-1 flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Portrait of a male extra with glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzdGl2vqx3rlqp18H8MDAldj_P_hbU1Wl5I8xwSzmpLcwdqSamoBFp8Ds0aNCrAueyLHe5OEJP2v_mlVc-K3wZhZfWVrw5K1ORqDczYmzI-SPUrNkR5D5TaikX35sFWfIE3B3TyZK202qeMH5SZHgBgzgJzp6elDguujL5D4sqFcM_96qulEBU6SXwOe-MEnaTNqdsH4igNGYFo8KJ7A4imt7nczFpGwwjTFArcvqXzw_p_xNiFpqNdA86MowM7zvoxiDot-5CdfVX"/>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-lg text-slate-800 dark:text-white leading-tight">David Chen, 41</h4>
+</div>
+<div class="flex items-center gap-3 text-slate-500 mb-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-blue-500">male</span>
+<span class="material-symbols-outlined text-[18px] text-indigo-500">directions_car</span>
+</div>
+<div class="w-px h-3 bg-slate-200 dark:bg-slate-700"></div>
+<span class="text-xs font-medium">New York, US</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 rounded text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide border border-indigo-100 dark:border-indigo-900/50">Glasses</span>
+<span class="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 rounded text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide border border-indigo-100 dark:border-indigo-900/50">Short Hair</span>
+</div>
+<button class="w-full mt-auto bg-indigo-50 hover:bg-primary hover:text-white text-primary font-bold py-2.5 rounded-lg transition-all text-xs border border-indigo-200/50 dark:bg-indigo-900/20 dark:border-indigo-800/50">
+                                Add to Scene
+                            </button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden group hover:shadow-lg transition-all hover:-translate-y-1 flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Portrait of a professional extra" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBupuNT-An_iRCvpRYXYNoY27mA75BCGubtSwe8U9qF90El6wg6acc68xRLcAPeCzr_GNQ63Mfmr2qsl2jseTc2rhj_-Eu8weJt_ZWr_NwhXfMqTIufYHv73CDgnSZ7li7WeupOaZQlE5E9OyKKWq5ZFbRA4dEICYRiEp0Q1odQPADGOEq9d_6RsE0dR-qjTnCpYXEY7RGGPVa8aC1XQJyLrs1AgsnKkmr6ub1T9PNltYLEc-KX3fG4anrpX_HkbJehScbJKinFmm0F"/>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-lg text-slate-800 dark:text-white leading-tight">Sarah Miller, 24</h4>
+</div>
+<div class="flex items-center gap-3 text-slate-500 mb-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-pink-500">female</span>
+</div>
+<div class="w-px h-3 bg-slate-200 dark:bg-slate-700"></div>
+<span class="text-xs font-medium">Berlin, DE</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 rounded text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide border border-indigo-100 dark:border-indigo-900/50">Athletic</span>
+<span class="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 rounded text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide border border-indigo-100 dark:border-indigo-900/50">No Tattoos</span>
+</div>
+<button class="w-full mt-auto bg-indigo-50 hover:bg-primary hover:text-white text-primary font-bold py-2.5 rounded-lg transition-all text-xs border border-indigo-200/50 dark:bg-indigo-900/20 dark:border-indigo-800/50">
+                                Add to Scene
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Nav Bottom -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex justify-around py-3 px-6 z-50">
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold uppercase">Dash</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-bold uppercase">Extras</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">movie</span>
+<span class="text-[10px] font-bold uppercase">Scenes</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold uppercase">Set</span>
+</button>
+</div>
+</div>
+</body></html>
