@@ -4,6 +4,8 @@
 import { db } from '@/db'
 import { shootingDays } from '@/db/schema/shooting-days'
 import { scenes } from '@/db/schema/scenes'
+import { extraScenes } from '@/db/schema/extra-scenes'
+import { extras } from '@/db/schema/extras'
 import { and, eq, asc, desc, inArray } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { getCurrentProduction, requireAuth } from './auth'
@@ -11,9 +13,10 @@ import {
   createShootingDaySchema,
   updateShootingDaySchema,
 } from '@/lib/validations/shooting-day'
+import { format } from 'date-fns'
+import { he } from 'date-fns/locale'
 
 // Helper: given a list of shooting days, fetch their scene stats.
-// Phase 5: assignedCount is always 0 (no extra_scenes data yet).
 async function attachStats(days: (typeof shootingDays.$inferSelect)[]) {
   if (days.length === 0) return []
 
@@ -22,10 +25,32 @@ async function attachStats(days: (typeof shootingDays.$inferSelect)[]) {
     .from(scenes)
     .where(inArray(scenes.shootingDayId, days.map((d) => d.id)))
 
+  // Get confirmed+arrived counts per scene from extra_scenes
+  const confirmedArrivedByScene: Record<number, number> = {}
+  if (allScenes.length > 0) {
+    const sceneIds = allScenes.map((s) => s.id)
+    const assignments = await db
+      .select({ sceneId: extraScenes.sceneId })
+      .from(extraScenes)
+      .where(
+        and(
+          inArray(extraScenes.sceneId, sceneIds),
+          inArray(extraScenes.status, ['confirmed', 'arrived'])
+        )
+      )
+    for (const a of assignments) {
+      confirmedArrivedByScene[a.sceneId] =
+        (confirmedArrivedByScene[a.sceneId] ?? 0) + 1
+    }
+  }
+
   return days.map((day) => {
     const dayScenes = allScenes.filter((s) => s.shootingDayId === day.id)
     const totalRequired = dayScenes.reduce((sum, s) => sum + s.requiredExtras, 0)
-    const totalAssigned = 0 // Phase 5: no extra_scenes yet
+    const totalAssigned = dayScenes.reduce(
+      (sum, s) => sum + (confirmedArrivedByScene[s.id] ?? 0),
+      0
+    )
     const totalGap = Math.max(0, totalRequired - totalAssigned)
     return {
       ...day,
@@ -156,4 +181,69 @@ export async function getArchivedShootingDays() {
     .orderBy(desc(shootingDays.date))
 
   return { data: await attachStats(days) }
+}
+
+export async function generateWhatsAppSummary(shootingDayId: number) {
+  const production = await getCurrentProduction()
+  if (!production) return { error: 'לא נמצאה הפקה' }
+
+  const dayResult = await getShootingDay(shootingDayId)
+  if ('error' in dayResult) return dayResult
+  const day = dayResult.data
+
+  const sceneList = await db
+    .select()
+    .from(scenes)
+    .where(eq(scenes.shootingDayId, shootingDayId))
+    .orderBy(asc(scenes.sortOrder))
+
+  const parsedDate = new Date(day.date + 'T00:00:00')
+  const formattedDate = format(parsedDate, 'EEEE, d בMMMM yyyy', { locale: he })
+
+  if (sceneList.length === 0) {
+    return { data: `📅 יום צילום: ${formattedDate}\n\nאין סצנות ליום זה.` }
+  }
+
+  const sceneIds = sceneList.map((s) => s.id)
+
+  // All assignments for this day
+  const assignments = await db
+    .select({ sceneId: extraScenes.sceneId, extraId: extraScenes.extraId })
+    .from(extraScenes)
+    .where(inArray(extraScenes.sceneId, sceneIds))
+
+  // Fetch extra names
+  const extraIds = [...new Set(assignments.map((a) => a.extraId))]
+  const extraNames: Record<number, string> = {}
+  if (extraIds.length > 0) {
+    const extraList = await db
+      .select({ id: extras.id, fullName: extras.fullName })
+      .from(extras)
+      .where(inArray(extras.id, extraIds))
+    extraList.forEach((e) => {
+      extraNames[e.id] = e.fullName
+    })
+  }
+
+  const extrasByScene: Record<number, string[]> = {}
+  for (const a of assignments) {
+    if (!extrasByScene[a.sceneId]) extrasByScene[a.sceneId] = []
+    const name = extraNames[a.extraId]
+    if (name) extrasByScene[a.sceneId].push(name)
+  }
+
+  let text = `📅 יום צילום: ${formattedDate}`
+  sceneList.forEach((scene, index) => {
+    const assigned = extrasByScene[scene.id] ?? []
+    const gap = Math.max(0, scene.requiredExtras - assigned.length)
+    text += `\n\n🎬 סצנה ${index + 1}: ${scene.title}`
+    if (assigned.length > 0) {
+      text += `\n   ניצבים: ${assigned.join(', ')}`
+    }
+    if (gap > 0) {
+      text += `\n   ⚠️ חסרים: ${gap} ניצבים`
+    }
+  })
+
+  return { data: text }
 }

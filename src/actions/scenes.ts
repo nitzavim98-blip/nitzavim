@@ -126,3 +126,54 @@ export async function reorderScenes(shootingDayId: number, orderedIds: number[])
   revalidatePath(`/shooting-days/${shootingDayId}`)
   return { data: { success: true } }
 }
+
+export async function duplicateScene(sceneId: number) {
+  await requireAuth()
+  const production = await getCurrentProduction()
+  if (!production) return { error: 'לא נמצאה הפקה' }
+
+  const original = await db
+    .select()
+    .from(scenes)
+    .where(eq(scenes.id, sceneId))
+    .limit(1)
+
+  if (!original[0]) return { error: 'הסצנה לא נמצאה' }
+
+  // Verify ownership through shooting day
+  const day = await db
+    .select()
+    .from(shootingDays)
+    .where(
+      and(
+        eq(shootingDays.id, original[0].shootingDayId),
+        eq(shootingDays.productionId, production.id)
+      )
+    )
+    .limit(1)
+
+  if (!day[0]) return { error: 'יום הצילום לא נמצא' }
+
+  // Get next sortOrder
+  const existing = await db
+    .select({ sortOrder: scenes.sortOrder })
+    .from(scenes)
+    .where(eq(scenes.shootingDayId, original[0].shootingDayId))
+
+  const nextOrder =
+    existing.length > 0 ? Math.max(...existing.map((s) => s.sortOrder)) + 1 : 0
+
+  const [created] = await db
+    .insert(scenes)
+    .values({
+      shootingDayId: original[0].shootingDayId,
+      title: original[0].title,
+      description: original[0].description,
+      requiredExtras: original[0].requiredExtras,
+      sortOrder: nextOrder,
+    })
+    .returning()
+
+  revalidatePath(`/shooting-days/${original[0].shootingDayId}`)
+  return { data: created }
+}
