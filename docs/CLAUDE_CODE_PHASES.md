@@ -175,7 +175,7 @@ Seed `attribute_options` with the 26 pre-seeded values from `CLAUDE.md` in the m
 
 ---
 
-## Phase 2 — Extras: Core CRUD
+## Phase 2 — Extras: Core CRUD ✅ DONE
 
 **Goal**: Director can view, add, edit, and delete extras. The extras list renders rows with identity info, contact icons, star toggle, and three-dot menu. Name search filters the list client-side.
 
@@ -278,7 +278,7 @@ Physical attributes and availability added in Phase 3. Photos added in Phase 4.
 
 ---
 
-## Phase 3 — Extras: Rich Data
+## Phase 3 — Extras: Rich Data ✅ DONE
 
 **Goal**: Physical attributes and availability are fully manageable. All four expandable sections in the extra row are wired up and animated.
 
@@ -589,7 +589,7 @@ Since `extra_scenes` doesn't exist yet in Phase 5: show `0 / required_extras` fo
 
 ---
 
-## Phase 6 — Scene Assignment & Status Flow
+## Phase 6 — Scene Assignment & Status Flow ✅ DONE
 
 **Goal**: Director can assign extras to scenes, advance their status through the candidate flow, and export the day's summary to WhatsApp. The "Scenes" expandable section in the extra row is fully wired.
 
@@ -677,16 +677,16 @@ Replace Phase 3's placeholder with real data:
 
 ### 6.8 Acceptance Criteria
 
-- [ ] Extras can be assigned to scenes from the shooting day detail
-- [ ] Assigning a duplicate shows an error toast
-- [ ] Status badge renders correct color per status
-- [ ] Clicking status badge shows dropdown; selecting a new status updates DB and UI
-- [ ] `confirmed + arrived` count updates the gap indicator
-- [ ] Removing an extra from a scene requires confirmation
-- [ ] "Scenes" section in extra row shows all scene assignments with look/situation
-- [ ] Empty state for scenes section renders correctly with muted button
-- [ ] WhatsApp export copies correct formatted text to clipboard
-- [ ] Duplicate scene creates a copy without assignments
+- [x] Extras can be assigned to scenes from the shooting day detail
+- [x] Assigning a duplicate shows an error toast
+- [x] Status badge renders correct color per status
+- [x] Clicking status badge shows dropdown; selecting a new status updates DB and UI
+- [x] `confirmed + arrived` count updates the gap indicator
+- [x] Removing an extra from a scene requires confirmation
+- [x] "Scenes" section in extra row shows all scene assignments with look/situation
+- [x] Empty state for scenes section renders correctly with muted button
+- [x] WhatsApp export copies correct formatted text to clipboard
+- [x] Duplicate scene creates a copy without assignments
 
 ---
 
