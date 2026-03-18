@@ -1,0 +1,105 @@
+/* src/components/shooting-days/QuickAssign/QuickAssign.module.css */
+.wrapper {
+  border-block-start: 1px solid var(--color-border);
+  padding: var(--space-3);
+  background: var(--color-bg);
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-card);
+  border: 1px solid var(--color-border-input);
+  border-radius: 8px;
+  padding: 6px var(--space-3);
+}
+
+.searchIcon {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  background: none;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  font-family: inherit;
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: color 150ms ease;
+}
+
+.closeButton:hover {
+  color: var(--color-text);
+}
+
+.hint {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin: var(--space-2) 0 0 0;
+  padding: 0 var(--space-1);
+}
+
+.results {
+  margin-block-start: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 8px var(--space-3);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: right;
+  width: 100%;
+  font-family: inherit;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.result:hover:not(:disabled) {
+  background: var(--color-card-hover);
+  border-color: var(--color-primary-light);
+}
+
+.result:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.resultName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  flex: 1;
+}
+
+.resultAge {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
