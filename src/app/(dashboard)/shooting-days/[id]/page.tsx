@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { getShootingDay } from '@/actions/shooting-days'
 import { getScenes } from '@/actions/scenes'
+import { getSceneAssignmentsForDay } from '@/actions/extra-scenes'
 import ShootingDayHeader from '@/components/shooting-days/ShootingDayHeader'
 import SortableSceneList from '@/components/shooting-days/SortableSceneList'
 import AddSceneButton from '@/components/shooting-days/AddSceneButton'
@@ -16,9 +17,10 @@ export default async function ShootingDayDetailPage({
   const id = Number(params.id)
   if (isNaN(id)) notFound()
 
-  const [dayResult, scenesResult] = await Promise.all([
+  const [dayResult, scenesResult, assignmentsResult] = await Promise.all([
     getShootingDay(id),
     getScenes(id),
+    getSceneAssignmentsForDay(id),
   ])
 
   if ('error' in dayResult) notFound()
@@ -26,6 +28,8 @@ export default async function ShootingDayDetailPage({
 
   const day = dayResult.data
   const sceneList = scenesResult.data
+  const assignmentsBySceneId =
+    'data' in assignmentsResult ? assignmentsResult.data : {}
 
   return (
     <div className={styles.page}>
@@ -46,6 +50,7 @@ export default async function ShootingDayDetailPage({
         <SortableSceneList
           scenes={sceneList}
           shootingDayId={day.id}
+          assignmentsBySceneId={assignmentsBySceneId}
           isReadOnly={day.isArchived}
         />
       </div>

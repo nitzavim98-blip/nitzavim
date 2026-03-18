@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
 import { Pencil, Archive, MessageSquare } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { archiveShootingDay } from '@/actions/shooting-days'
+import { archiveShootingDay, generateWhatsAppSummary } from '@/actions/shooting-days'
 import Button from '@/components/ui/Button'
 import Modal from '@/components/ui/Modal'
 import ShootingDayForm from '@/components/shooting-days/ShootingDayForm'
@@ -22,9 +22,26 @@ export default function ShootingDayHeader({ day }: Props) {
   const [isEditing, setIsEditing] = useState(false)
   const [confirmArchive, setConfirmArchive] = useState(false)
   const [isArchiving, startArchiveTransition] = useTransition()
+  const [isExporting, startExportTransition] = useTransition()
 
   const parsedDate = new Date(day.date + 'T00:00:00')
   const formattedDate = format(parsedDate, 'EEEE, d בMMMM yyyy', { locale: he })
+
+  function handleWhatsAppExport() {
+    startExportTransition(async () => {
+      const result = await generateWhatsAppSummary(day.id)
+      if ('error' in result) {
+        toast.error(result.error ?? 'אירעה שגיאה')
+        return
+      }
+      try {
+        await navigator.clipboard.writeText(result.data as string)
+        toast.success('הועתק ללוח!')
+      } catch {
+        toast.error('שגיאה בהעתקה ללוח')
+      }
+    })
+  }
 
   function handleArchive() {
     startArchiveTransition(async () => {
@@ -69,8 +86,8 @@ export default function ShootingDayHeader({ day }: Props) {
               <Button
                 variant="ghost"
                 size="sm"
-                disabled
-                title="ייצוא לווצאפ — יהיה זמין בשלב 6"
+                onClick={handleWhatsAppExport}
+                disabled={isExporting}
                 aria-label="ייצוא לווצאפ"
               >
                 <MessageSquare size={16} />
