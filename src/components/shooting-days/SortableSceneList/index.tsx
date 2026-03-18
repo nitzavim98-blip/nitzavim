@@ -1,3 +1,4 @@
+// src/components/shooting-days/SortableSceneList/index.tsx
 'use client'
 
 import { useState } from 'react'
@@ -20,17 +21,20 @@ import toast from 'react-hot-toast'
 import { reorderScenes } from '@/actions/scenes'
 import SceneBlock from '@/components/shooting-days/SceneBlock'
 import type { Scene } from '@/db/schema/scenes'
+import type { ExtraSlotData } from '@/actions/extra-scenes'
 import styles from './SortableSceneList.module.css'
 
 type Props = {
   scenes: Scene[]
   shootingDayId: number
+  assignmentsBySceneId?: Record<number, ExtraSlotData[]>
   isReadOnly?: boolean
 }
 
 export default function SortableSceneList({
   scenes: initialScenes,
   shootingDayId,
+  assignmentsBySceneId = {},
   isReadOnly,
 }: Props) {
   const [sceneList, setSceneList] = useState(initialScenes)
@@ -75,6 +79,7 @@ export default function SortableSceneList({
             key={scene.id}
             scene={scene}
             sceneNumber={index + 1}
+            assignments={assignmentsBySceneId[scene.id] ?? []}
             isReadOnly
           />
         ))}
@@ -98,6 +103,7 @@ export default function SortableSceneList({
               key={scene.id}
               scene={scene}
               sceneNumber={index + 1}
+              assignments={assignmentsBySceneId[scene.id] ?? []}
             />
           ))}
         </div>

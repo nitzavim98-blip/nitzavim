@@ -213,7 +213,7 @@ export default function ExtraRow({ extra, thumbnailUrl }: ExtraRowProps) {
           <div className={styles.expandButtons}>
             {expandBtn('attributes', <Accessibility size={20} />, 'מאפיינים פיזיים')}
             {expandBtn('availability', <Calendar size={20} />, 'תאריכים נוחים')}
-            {expandBtn('scenes', <Clapperboard size={20} />, 'סצנות', true)}
+            {expandBtn('scenes', <Clapperboard size={20} />, 'סצנות')}
             {expandBtn('info', <Info size={20} />, 'מידע נוסף')}
           </div>
 
@@ -279,7 +279,7 @@ export default function ExtraRow({ extra, thumbnailUrl }: ExtraRowProps) {
 
         <ExtraExpandableSection isOpen={activeSection === 'scenes'}>
           <div className={styles.sectionInner}>
-            <ScenesSection />
+            <ScenesSection extraId={extra.id} isExpanded={activeSection === 'scenes'} />
           </div>
         </ExtraExpandableSection>
 
