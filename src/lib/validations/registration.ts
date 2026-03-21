@@ -4,6 +4,7 @@ import { availabilityRecordSchema } from './extra'
 export const publicRegistrationSchema = z.object({
   fullName: z.string().min(1, 'שם מלא הוא שדה חובה').max(255),
   phone: z.string().max(20).optional().nullable(),
+  email: z.string().email('כתובת אימייל לא תקינה').max(255).optional().nullable(),
   gender: z.number().int().min(0).max(1).default(1),
   age: z
     .number()

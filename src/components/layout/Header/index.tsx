@@ -1,6 +1,7 @@
+import Image from 'next/image'
 import { auth } from '@/lib/auth'
-import { signOut } from '@/lib/auth'
-import { LogOut } from 'lucide-react'
+import NavDrawer from '@/components/layout/NavDrawer'
+import PageTitle from './PageTitle'
 import styles from './Header.module.css'
 
 export default async function Header() {
@@ -9,7 +10,9 @@ export default async function Header() {
 
   return (
     <header className={styles.header}>
-      <div className={styles.userInfo}>
+      {/* Right group: hamburger · avatar · page name — rightmost in RTL */}
+      <div className={styles.rightGroup}>
+        <NavDrawer />
         {user?.image && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -20,20 +23,14 @@ export default async function Header() {
             height={32}
           />
         )}
-        <span className={styles.userName}>{user?.name}</span>
+        <PageTitle />
       </div>
 
-      <form
-        action={async () => {
-          'use server'
-          await signOut({ redirectTo: '/login' })
-        }}
-      >
-        <button type="submit" className={styles.signOutButton} aria-label="התנתק">
-          <LogOut size={18} aria-hidden="true" />
-          <span>התנתק</span>
-        </button>
-      </form>
+      {/* Logo — leftmost in RTL */}
+      <div className={styles.logoSection}>
+        <Image src="/logo.png" alt="שיבוץ+ ניצבים" width={32} height={32} className={styles.logoImage} />
+        <span className={styles.logoName}>שיבוץ+ ניצבים</span>
+      </div>
     </header>
   )
 }

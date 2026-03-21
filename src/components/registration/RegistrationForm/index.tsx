@@ -25,6 +25,7 @@ export default function RegistrationForm({ token }: Props) {
 
   const [fullName, setFullName] = useState('')
   const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
   const [gender, setGender] = useState<number>(1)
   const [age, setAge] = useState('')
   const [height, setHeight] = useState('')
@@ -101,6 +102,7 @@ export default function RegistrationForm({ token }: Props) {
       const result = await submitRegistration({
         fullName,
         phone: phone || null,
+        email: email || null,
         gender,
         age: age ? parseInt(age, 10) : null,
         height: height ? parseInt(height, 10) : null,
@@ -144,7 +146,7 @@ export default function RegistrationForm({ token }: Props) {
       {/* Full name */}
       <div className={styles.field}>
         <label htmlFor="fullName" className={styles.label}>
-          שם מלא <span className={styles.required}>*</span>
+          שם מלא <span className={styles.labelHint}>(חובה)</span>
         </label>
         <input
           id="fullName"
@@ -161,7 +163,7 @@ export default function RegistrationForm({ token }: Props) {
       {/* Phone */}
       <div className={styles.field}>
         <label htmlFor="phone" className={styles.label}>
-          טלפון
+          טלפון <span className={styles.labelHint}>(חובה)</span>
         </label>
         <input
           id="phone"
@@ -175,31 +177,62 @@ export default function RegistrationForm({ token }: Props) {
         />
       </div>
 
-      {/* Gender */}
+      {/* Email */}
       <div className={styles.field}>
-        <span className={styles.label}>מגדר</span>
-        <div className={styles.genderToggle}>
-          <label className={`${styles.genderOption} ${gender === 1 ? styles.genderActive : ''}`}>
+        <label htmlFor="email" className={styles.label}>
+          אימייל <span className={styles.labelHint}>(לא חובה)</span>
+        </label>
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className={styles.input}
+          placeholder="example@email.com"
+          autoComplete="email"
+          dir="ltr"
+        />
+      </div>
+
+      {/* Gender + Has car — one row */}
+      <div className={styles.rowGenderCar}>
+        <div className={styles.field}>
+          <span className={styles.label}>מגדר <span className={styles.labelHint}>(חובה)</span></span>
+          <div className={styles.genderToggle}>
+            <label className={`${styles.genderOption} ${gender === 1 ? styles.genderActive : ''}`}>
+              <input
+                type="radio"
+                name="gender"
+                value={1}
+                checked={gender === 1}
+                onChange={() => setGender(1)}
+                className={styles.hiddenRadio}
+              />
+              זכר
+            </label>
+            <label className={`${styles.genderOption} ${gender === 0 ? styles.genderActive : ''}`}>
+              <input
+                type="radio"
+                name="gender"
+                value={0}
+                checked={gender === 0}
+                onChange={() => setGender(0)}
+                className={styles.hiddenRadio}
+              />
+              נקבה
+            </label>
+          </div>
+        </div>
+        <div className={styles.field}>
+          <span className={styles.label}>&nbsp;</span>
+          <label className={styles.checkboxLabel}>
             <input
-              type="radio"
-              name="gender"
-              value={1}
-              checked={gender === 1}
-              onChange={() => setGender(1)}
-              className={styles.hiddenRadio}
+              type="checkbox"
+              checked={hasCar}
+              onChange={(e) => setHasCar(e.target.checked)}
+              className={styles.checkbox}
             />
-            זכר
-          </label>
-          <label className={`${styles.genderOption} ${gender === 0 ? styles.genderActive : ''}`}>
-            <input
-              type="radio"
-              name="gender"
-              value={0}
-              checked={gender === 0}
-              onChange={() => setGender(0)}
-              className={styles.hiddenRadio}
-            />
-            נקבה
+            יש לי רכב
           </label>
         </div>
       </div>
@@ -208,7 +241,7 @@ export default function RegistrationForm({ token }: Props) {
       <div className={styles.row3}>
         <div className={styles.field}>
           <label htmlFor="age" className={styles.label}>
-            גיל
+            גיל <span className={styles.labelHint}>(לא חובה)</span>
           </label>
           <input
             id="age"
@@ -223,7 +256,7 @@ export default function RegistrationForm({ token }: Props) {
         </div>
         <div className={styles.field}>
           <label htmlFor="height" className={styles.label}>
-            גובה (ס&quot;מ)
+            גובה <span className={styles.labelHint}>(לא חובה)</span>
           </label>
           <input
             id="height"
@@ -238,7 +271,7 @@ export default function RegistrationForm({ token }: Props) {
         </div>
         <div className={styles.field}>
           <label htmlFor="weight" className={styles.label}>
-            משקל (ק&quot;ג)
+            משקל <span className={styles.labelHint}>(לא חובה)</span>
           </label>
           <input
             id="weight"
@@ -253,23 +286,19 @@ export default function RegistrationForm({ token }: Props) {
         </div>
       </div>
 
-      {/* Has car */}
+      {/* Availability */}
       <div className={styles.field}>
-        <label className={styles.checkboxLabel}>
-          <input
-            type="checkbox"
-            checked={hasCar}
-            onChange={(e) => setHasCar(e.target.checked)}
-            className={styles.checkbox}
-          />
-          יש לי רכב
-        </label>
+        <span className={styles.label}>תאריכים נוחים <span className={styles.labelHint}>(לא חובה)</span></span>
+        <AvailabilityPicker
+          records={availabilityRecords}
+          onChange={setAvailabilityRecords}
+        />
       </div>
 
       {/* Notes */}
       <div className={styles.field}>
         <label htmlFor="notes" className={styles.label}>
-          הערות
+          הערות <span className={styles.labelHint}>(לא חובה)</span>
         </label>
         <textarea
           id="notes"
@@ -278,15 +307,6 @@ export default function RegistrationForm({ token }: Props) {
           className={styles.textarea}
           placeholder="כל מידע נוסף שתרצה לשתף..."
           rows={3}
-        />
-      </div>
-
-      {/* Availability */}
-      <div className={styles.field}>
-        <span className={styles.label}>תאריכים נוחים</span>
-        <AvailabilityPicker
-          records={availabilityRecords}
-          onChange={setAvailabilityRecords}
         />
       </div>
 

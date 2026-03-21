@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Users, Search, Calendar, LayoutDashboard, Settings } from 'lucide-react'
+import { Users, Search, Calendar, LayoutDashboard, Settings, LogOut } from 'lucide-react'
+import { signOut } from 'next-auth/react'
 import styles from './Sidebar.module.css'
 
 const navItems = [
@@ -40,6 +41,18 @@ export default function Sidebar() {
           )
         })}
       </nav>
+
+      <div className={styles.footer}>
+        <button
+          type="button"
+          className={styles.signOutButton}
+          aria-label="התנתק"
+          onClick={() => signOut({ callbackUrl: '/login' })}
+        >
+          <LogOut size={20} aria-hidden="true" />
+          <span>התנתק</span>
+        </button>
+      </div>
     </aside>
   )
 }

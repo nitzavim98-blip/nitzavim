@@ -17,9 +17,11 @@
   letter-spacing: 0.03em;
 }
 
-.required {
-  color: var(--color-danger);
-  margin-inline-start: 2px;
+.labelHint {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  margin-inline-start: 4px;
 }
 
 .input {
@@ -93,7 +95,14 @@
   height: 0;
 }
 
-/* 3-column row */
+/* Gender + has-car row */
+.rowGenderCar {
+  display: flex;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+/* Age / height / weight row */
 .row3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -275,7 +284,7 @@
 
 @media (max-width: 767px) {
   .row3 {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   .genderToggle {
