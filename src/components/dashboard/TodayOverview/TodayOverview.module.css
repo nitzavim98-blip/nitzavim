@@ -1,0 +1,74 @@
+.scenes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.noScenes {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: var(--space-4) 0;
+}
+
+.sceneBlock {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+}
+
+.sceneHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-end: var(--space-2);
+}
+
+.sceneTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.sceneCount {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  background: var(--color-primary-subtle);
+  color: var(--color-primary-text);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-xs);
+  font-weight: 500;
+}
+
+.extrasList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.extraRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.extraName {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+.iconSuccess {
+  color: var(--color-success);
+  flex-shrink: 0;
+}
+
+.iconWarning {
+  color: var(--color-warning);
+  flex-shrink: 0;
+}
+
+.iconMuted {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}

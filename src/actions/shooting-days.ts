@@ -13,7 +13,7 @@ import {
   createShootingDaySchema,
   updateShootingDaySchema,
 } from '@/lib/validations/shooting-day'
-import { format } from 'date-fns'
+import { format, addDays } from 'date-fns'
 import { he } from 'date-fns/locale'
 
 // Helper: given a list of shooting days, fetch their scene stats.
@@ -181,6 +181,95 @@ export async function getArchivedShootingDays() {
     .orderBy(desc(shootingDays.date))
 
   return { data: await attachStats(days) }
+}
+
+export type SceneWithExtras = {
+  id: number
+  shootingDayId: number
+  title: string
+  description: string | null
+  sortOrder: number
+  requiredExtras: number
+  createdAt: Date
+  extras: Array<{ extraId: number; name: string; status: string }>
+}
+
+export type DayWithScenes = typeof shootingDays.$inferSelect & {
+  scenes: SceneWithExtras[]
+}
+
+export async function getShootingDayForDate(
+  date: string
+): Promise<{ data: DayWithScenes | null } | { error: string }> {
+  const production = await getCurrentProduction()
+  if (!production) return { error: 'לא נמצאה הפקה' }
+
+  const dayResult = await db
+    .select()
+    .from(shootingDays)
+    .where(
+      and(
+        eq(shootingDays.productionId, production.id),
+        eq(shootingDays.date, date),
+        eq(shootingDays.isArchived, false)
+      )
+    )
+    .limit(1)
+
+  if (!dayResult[0]) return { data: null }
+
+  const day = dayResult[0]
+  const sceneList = await db
+    .select()
+    .from(scenes)
+    .where(eq(scenes.shootingDayId, day.id))
+    .orderBy(asc(scenes.sortOrder))
+
+  if (sceneList.length === 0) {
+    return { data: { ...day, scenes: [] } }
+  }
+
+  const sceneIds = sceneList.map((s) => s.id)
+  const assignments = await db
+    .select({
+      sceneId: extraScenes.sceneId,
+      extraId: extraScenes.extraId,
+      status: extraScenes.status,
+      extraName: extras.fullName,
+    })
+    .from(extraScenes)
+    .innerJoin(extras, eq(extraScenes.extraId, extras.id))
+    .where(inArray(extraScenes.sceneId, sceneIds))
+
+  const assignmentsByScene: Record<
+    number,
+    Array<{ extraId: number; name: string; status: string }>
+  > = {}
+  for (const a of assignments) {
+    if (!assignmentsByScene[a.sceneId]) assignmentsByScene[a.sceneId] = []
+    assignmentsByScene[a.sceneId].push({
+      extraId: a.extraId,
+      name: a.extraName,
+      status: a.status,
+    })
+  }
+
+  const scenesWithExtras: SceneWithExtras[] = sceneList.map((scene) => ({
+    ...scene,
+    extras: assignmentsByScene[scene.id] ?? [],
+  }))
+
+  return { data: { ...day, scenes: scenesWithExtras } }
+}
+
+export async function getTodayAndTomorrowDays() {
+  const today = format(new Date(), 'yyyy-MM-dd')
+  const tomorrow = format(addDays(new Date(), 1), 'yyyy-MM-dd')
+  const [todayResult, tomorrowResult] = await Promise.all([
+    getShootingDayForDate(today),
+    getShootingDayForDate(tomorrow),
+  ])
+  return { todayResult, tomorrowResult }
 }
 
 export async function generateWhatsAppSummary(shootingDayId: number) {

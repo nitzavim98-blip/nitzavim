@@ -783,7 +783,7 @@ When navigated without `?sceneId`:
 
 ---
 
-## Phase 8 — Dashboard
+## Phase 8 — Dashboard ✅
 
 **Goal**: The dashboard gives the director an immediate view of today's and tomorrow's shooting days — confirmed extras per scene, status indicators, and gaps.
 
@@ -835,11 +835,11 @@ src/components/dashboard/DaySection/
 
 ### 8.4 Acceptance Criteria
 
-- [ ] Dashboard shows today's shooting day with extras and statuses
-- [ ] Dashboard shows tomorrow's shooting day with gap warnings
-- [ ] Empty states render for days with no shooting day
-- [ ] Dashboard is the default redirect after login (replaces placeholder)
-- [ ] Streaming: today section renders first, tomorrow streams in
+- [x] Dashboard shows today's shooting day with extras and statuses
+- [x] Dashboard shows tomorrow's shooting day with gap warnings
+- [x] Empty states render for days with no shooting day
+- [x] Dashboard is the default redirect after login (replaces placeholder)
+- [x] Streaming: today section renders first, tomorrow streams in
 
 ---
 

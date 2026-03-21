@@ -1,16 +1,27 @@
-import { requireAuth } from '@/actions/auth'
+import { Suspense } from 'react'
+import TodayOverview from '@/components/dashboard/TodayOverview'
+import TomorrowGaps from '@/components/dashboard/TomorrowGaps'
+import styles from './dashboard.module.css'
 
-export default async function DashboardPage() {
-  const user = await requireAuth()
-
+export default function DashboardPage() {
   return (
-    <div>
-      <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBlockEnd: '8px' }}>
-        ברוך הבא, {user.name}
-      </h1>
-      <p style={{ color: 'var(--color-text-secondary)' }}>
-        לוח הבקרה יהיה זמין בשלב 8
-      </p>
+    <div className={styles.page}>
+      <Suspense fallback={<DaySectionSkeleton />}>
+        <TodayOverview />
+      </Suspense>
+      <Suspense fallback={<DaySectionSkeleton />}>
+        <TomorrowGaps />
+      </Suspense>
+    </div>
+  )
+}
+
+function DaySectionSkeleton() {
+  return (
+    <div className={styles.skeleton}>
+      <div className={styles.skeletonHeading} />
+      <div className={styles.skeletonCard} />
+      <div className={styles.skeletonCard} />
     </div>
   )
 }
