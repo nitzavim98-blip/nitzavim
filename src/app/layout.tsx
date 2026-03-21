@@ -10,8 +10,15 @@ const heebo = Heebo({
 })
 
 export const metadata: Metadata = {
-  title: 'ExtraCast',
+  title: 'שיבוץ+ ניצבים',
   description: 'מערכת ניהול ניצבים',
+  icons: {
+    icon: [
+      { url: '/logo32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/logo192.png', sizes: '192x192', type: 'image/png' },
+    ],
+    apple: '/logo192.png',
+  },
 }
 
 export default function RootLayout({

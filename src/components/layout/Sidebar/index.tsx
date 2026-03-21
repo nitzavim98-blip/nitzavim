@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Users, Search, Calendar, LayoutDashboard, Settings } from 'lucide-react'
 import styles from './Sidebar.module.css'
@@ -19,7 +20,8 @@ export default function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.brand}>
-        <span className={styles.brandName}>ExtraCast</span>
+        <Image src="/logo.png" alt="שיבוץ+ ניצבים" width={40} height={40} className={styles.brandLogo} />
+        <span className={styles.brandName}>שיבוץ+ ניצבים</span>
       </div>
 
       <nav className={styles.nav} aria-label="ניווט ראשי">
