@@ -48,3 +48,11 @@
     grid-template-columns: 1fr;
   }
 }
+
+.sidebar {
+  /* grid column — placement handled by parent grid */
+}
+
+.content {
+  min-width: 0; /* prevent grid blowout on long content */
+}
