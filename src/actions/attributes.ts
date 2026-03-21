@@ -1,24 +1,36 @@
 'use server'
 
 import { db } from '@/db'
-import { attributeOptions } from '@/db/schema/attribute-options'
+import { attributeOptions, type AttributeOption } from '@/db/schema/attribute-options'
 import { extraAttributes } from '@/db/schema/extra-attributes'
 import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { requireAuth } from './auth'
+import { createAttributeOptionSchema } from '@/lib/validations/attribute-option'
 
-export async function getAttributeOptions() {
-  const result = await db
-    .select()
-    .from(attributeOptions)
-    .orderBy(attributeOptions.id)
-  return { data: result }
+export async function getAttributeOptions(): Promise<
+  { data: AttributeOption[] } | { error: string }
+> {
+  try {
+    const result = await db
+      .select()
+      .from(attributeOptions)
+      .orderBy(attributeOptions.id)
+    return { data: result }
+  } catch {
+    return { error: 'שגיאה בטעינת המאפיינים' }
+  }
 }
 
 export async function createAttributeOption(label: string) {
   await requireAuth()
-  const trimmed = label.trim()
-  if (!trimmed) return { error: 'שם המאפיין לא יכול להיות ריק' }
+
+  const parsed = createAttributeOptionSchema.safeParse({ label: label.trim() })
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'שם המאפיין לא תקין' }
+  }
+
+  const trimmed = parsed.data.label
 
   const existing = await db
     .select()
@@ -26,13 +38,14 @@ export async function createAttributeOption(label: string) {
     .where(eq(attributeOptions.label, trimmed))
     .limit(1)
 
-  if (existing[0]) return { data: existing[0] }
+  if (existing[0]) return { error: 'מאפיין זה כבר קיים' }
 
   const [created] = await db
     .insert(attributeOptions)
     .values({ label: trimmed })
     .returning()
 
+  revalidatePath('/settings')
   return { data: created }
 }
 

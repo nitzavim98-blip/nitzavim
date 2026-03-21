@@ -10,7 +10,7 @@ export default async function AttributeOptions() {
     return (
       <div className={styles.errorState}>
         <AlertCircle size={20} />
-        <span>{String((result as { error: string }).error)}</span>
+        <span>{result.error}</span>
       </div>
     )
   }

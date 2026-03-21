@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Plus } from 'lucide-react'
+import { Plus, Tag as TagIcon } from 'lucide-react'
 import toast from 'react-hot-toast'
 import Button from '@/components/ui/Button'
 import Tag from '@/components/ui/Tag'
@@ -72,6 +72,7 @@ export default function AttributeOptionsList({ initialOptions }: AttributeOption
     <div className={styles.container}>
       {options.length === 0 ? (
         <div className={styles.emptyState}>
+          <TagIcon size={20} />
           <span>אין מאפיינים פיזיים. הוסף מאפיין ראשון.</span>
         </div>
       ) : (
