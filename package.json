@@ -16,6 +16,8 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@neondatabase/serverless": "^1.0.2",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.37.0",
     "browser-image-compression": "^2.0.2",
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.45.1",
