@@ -23,7 +23,8 @@ export async function getTokens() {
 }
 
 export async function createToken() {
-  await requireAuth()
+  const user = await requireAuth()
+  if (user.role === 'guest') return { error: 'אין הרשאה ליצור לינקי הרשמה' }
 
   const token = randomBytes(32).toString('hex')
 
@@ -40,7 +41,8 @@ export async function createToken() {
 }
 
 export async function deactivateToken(id: number) {
-  await requireAuth()
+  const user = await requireAuth()
+  if (user.role === 'guest') return { error: 'אין הרשאה להשהות לינקי הרשמה' }
 
   const parsed = deactivateTokenSchema.safeParse({ id })
   if (!parsed.success) {

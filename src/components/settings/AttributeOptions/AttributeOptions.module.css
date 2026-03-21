@@ -12,8 +12,10 @@
 
 .emptyState {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 0.5rem;
   padding: 1.5rem;
   color: var(--color-text-secondary);
   font-size: 0.875rem;
