@@ -1,9 +1,10 @@
 import { AlertCircle } from 'lucide-react'
 import { getUsers, getCurrentUser } from '@/actions/auth'
+import type { User } from '@/db/schema/users'
 import UserRoleDropdown from './UserRoleDropdown'
 import styles from './UserManagement.module.css'
 
-type Role = 'admin' | 'director' | 'guest'
+type Role = User['role']
 
 const ROLE_LABELS: Record<Role, string> = {
   admin: 'מנהל',
@@ -55,7 +56,7 @@ export default async function UserManagement() {
           <tbody>
             {usersList.map((user) => {
               const isSelf = currentUser?.id === user.id
-              const badgeClass = ROLE_BADGE_CLASS[user.role as Role]
+              const badgeClass = ROLE_BADGE_CLASS[user.role]
               return (
                 <tr key={user.id} className={`${styles.tr} ${isSelf ? styles.trSelf : ''}`}>
                   <td className={styles.td}>
@@ -83,13 +84,13 @@ export default async function UserManagement() {
                   </td>
                   <td className={styles.td}>
                     <span className={`${styles.roleBadge} ${styles[badgeClass]}`}>
-                      {ROLE_LABELS[user.role as Role]}
+                      {ROLE_LABELS[user.role]}
                     </span>
                   </td>
                   <td className={styles.td}>
                     <UserRoleDropdown
                       userId={user.id}
-                      currentRole={user.role as Role}
+                      currentRole={user.role}
                       isSelf={isSelf}
                     />
                   </td>

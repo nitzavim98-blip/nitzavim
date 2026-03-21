@@ -3,9 +3,10 @@
 import { useState, useTransition } from 'react'
 import toast from 'react-hot-toast'
 import { updateUserRole } from '@/actions/auth'
+import type { User } from '@/db/schema/users'
 import styles from './UserManagement.module.css'
 
-type Role = 'admin' | 'director' | 'guest'
+type Role = User['role']
 
 const ROLE_LABELS: Record<Role, string> = {
   admin: 'מנהל',
