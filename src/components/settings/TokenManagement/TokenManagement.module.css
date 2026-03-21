@@ -50,8 +50,8 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
-  padding-block: 3px;
-  padding-inline: 10px;
+  padding-block: 2px;
+  padding-inline: 8px;
   border-radius: 20px;
   font-size: 0.78rem;
   font-weight: 600;

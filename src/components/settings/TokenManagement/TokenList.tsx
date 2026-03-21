@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Copy, Plus, Link, CheckCircle, XCircle } from 'lucide-react'
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
@@ -19,9 +19,23 @@ export default function TokenList({ initialTokens }: TokenListProps) {
   const [creating, setCreating] = useState(false)
   const [deactivatingId, setDeactivatingId] = useState<number | null>(null)
   const [copiedId, setCopiedId] = useState<number | null>(null)
+  const [origin, setOrigin] = useState<string>('')
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    setOrigin(window.location.origin)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      if (copyTimerRef.current !== null) {
+        clearTimeout(copyTimerRef.current)
+      }
+    }
+  }, [])
 
   function getRegistrationUrl(token: string): string {
-    return `${window.location.origin}/register/${token}`
+    return `${origin}/register/${token}`
   }
 
   async function handleCreate() {
@@ -66,7 +80,10 @@ export default function TokenList({ initialTokens }: TokenListProps) {
       await navigator.clipboard.writeText(url)
       setCopiedId(token.id)
       toast.success('הלינק הועתק ללוח')
-      setTimeout(() => setCopiedId(null), 2000)
+      if (copyTimerRef.current !== null) {
+        clearTimeout(copyTimerRef.current)
+      }
+      copyTimerRef.current = setTimeout(() => setCopiedId(null), 2000)
     } catch {
       toast.error('שגיאה בהעתקת הלינק')
     }
@@ -105,12 +122,12 @@ export default function TokenList({ initialTokens }: TokenListProps) {
                   >
                     {token.isActive ? (
                       <>
-                        <CheckCircle size={12} />
+                        <CheckCircle size={16} />
                         <span>פעיל</span>
                       </>
                     ) : (
                       <>
-                        <XCircle size={12} />
+                        <XCircle size={16} />
                         <span>מושהה</span>
                       </>
                     )}
@@ -149,9 +166,7 @@ export default function TokenList({ initialTokens }: TokenListProps) {
               <div className={styles.tokenUrl}>
                 <Link size={14} />
                 <span className={styles.urlText} dir="ltr">
-                  {typeof window !== 'undefined'
-                    ? getRegistrationUrl(token.token)
-                    : `/register/${token.token}`}
+                  {getRegistrationUrl(token.token)}
                 </span>
               </div>
             </div>
