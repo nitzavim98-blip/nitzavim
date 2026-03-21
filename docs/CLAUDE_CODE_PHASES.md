@@ -690,7 +690,7 @@ Replace Phase 3's placeholder with real data:
 
 ---
 
-## Phase 7 — Search
+## Phase 7 — Search ✅ DONE
 
 **Goal**: Director can search the extras roster using any combination of filters and assign results directly to a scene.
 
