@@ -1,0 +1,189 @@
+.container {
+  width: 100%;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-card);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.th {
+  padding-block: 12px;
+  padding-inline: 16px;
+  text-align: start;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  font-size: 0.8rem;
+  border-block-end: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  white-space: nowrap;
+}
+
+.tr {
+  border-block-end: 1px solid var(--color-border);
+  transition: background-color 0.15s ease;
+}
+
+.tr:last-child {
+  border-block-end: none;
+}
+
+.tr:hover {
+  background-color: var(--color-bg);
+}
+
+.trSelf {
+  background-color: color-mix(in srgb, var(--color-primary) 5%, transparent);
+}
+
+.trSelf:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+.td {
+  padding-block: 12px;
+  padding-inline: 16px;
+  color: var(--color-text);
+  vertical-align: middle;
+}
+
+/* Name cell */
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.avatarFallback {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.userName {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.selfTag {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+/* Email */
+.email {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+/* Role badge */
+.roleBadge {
+  display: inline-flex;
+  align-items: center;
+  padding-block: 3px;
+  padding-inline: 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.roleBadgeAdmin {
+  background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  color: var(--color-primary);
+}
+
+.roleBadgeDirector {
+  background-color: var(--color-success-subtle);
+  color: var(--color-success);
+}
+
+.roleBadgeGuest {
+  background-color: var(--color-warning-subtle);
+  color: var(--color-warning);
+}
+
+/* Role select dropdown */
+.roleSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-block: 6px;
+  padding-inline: 12px 28px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 8px center;
+}
+
+.roleSelect:hover:not(:disabled) {
+  border-color: var(--color-primary);
+}
+
+.roleSelect:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.roleSelect:disabled,
+.roleSelectDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: var(--color-bg);
+}
+
+/* Error state */
+.errorState {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-danger);
+  padding: 16px;
+  border: 1px solid var(--color-danger);
+  border-radius: 8px;
+  background-color: var(--color-danger-subtle);
+  font-size: 0.9rem;
+}
+
+/* Empty state */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 48px 16px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  font-size: 0.9rem;
+}
