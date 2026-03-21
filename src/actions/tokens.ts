@@ -61,3 +61,13 @@ export async function deactivateToken(id: number) {
 
   return { data: updated }
 }
+
+export async function validateToken(token: string) {
+  const result = await db
+    .select()
+    .from(registrationTokens)
+    .where(eq(registrationTokens.token, token))
+    .limit(1)
+  if (!result[0]) return null
+  return result[0].isActive ? result[0] : null
+}
