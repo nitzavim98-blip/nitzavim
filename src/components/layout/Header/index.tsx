@@ -2,11 +2,16 @@ import Image from 'next/image'
 import { auth } from '@/lib/auth'
 import NavDrawer from '@/components/layout/NavDrawer'
 import PageTitle from './PageTitle'
+import ShootingDayDateSelect from './ShootingDayDateSelect'
+import { getShootingDayDateInfo } from '@/actions/shooting-days'
 import styles from './Header.module.css'
 
 export default async function Header() {
   const session = await auth()
   const user = session?.user
+
+  const dateInfoResult = await getShootingDayDateInfo()
+  const dateInfo = 'data' in dateInfoResult ? dateInfoResult.data : null
 
   return (
     <header className={styles.header}>
@@ -24,6 +29,12 @@ export default async function Header() {
           />
         )}
         <PageTitle />
+        {dateInfo && (
+          <ShootingDayDateSelect
+            dateRange={dateInfo.dateRange}
+            shootingDaysByDate={dateInfo.shootingDaysByDate}
+          />
+        )}
       </div>
 
       {/* Logo — leftmost in RTL */}

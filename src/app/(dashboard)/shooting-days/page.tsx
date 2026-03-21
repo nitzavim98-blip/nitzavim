@@ -1,77 +1,128 @@
 import { Suspense } from 'react'
-import Link from 'next/link'
-import { Plus, CalendarX } from 'lucide-react'
-import { getShootingDays } from '@/actions/shooting-days'
-import ShootingDayCard from '@/components/shooting-days/ShootingDayCard'
-import Button from '@/components/ui/Button'
+import { format } from 'date-fns'
+import { CalendarX } from 'lucide-react'
+import { getShootingDay } from '@/actions/shooting-days'
+import { getScenes } from '@/actions/scenes'
+import { getSceneAssignmentsForDay } from '@/actions/extra-scenes'
+import { db } from '@/db'
+import { shootingDays } from '@/db/schema/shooting-days'
+import { getCurrentProduction } from '@/actions/auth'
+import { and, eq } from 'drizzle-orm'
+import ShootingDayHeader from '@/components/shooting-days/ShootingDayHeader'
+import SortableSceneList from '@/components/shooting-days/SortableSceneList'
+import AddSceneButton from '@/components/shooting-days/AddSceneButton'
+import AddShootingDayButton from '@/components/shooting-days/AddShootingDayButton'
 import { Skeleton } from '@/components/ui/Skeleton'
 import styles from './shooting-days.module.css'
 
-async function ShootingDaysList() {
-  const result = await getShootingDays()
+interface ShootingDaysPageProps {
+  searchParams: Promise<{ date?: string }>
+}
 
-  if ('error' in result) {
-    return <p className={styles.errorText}>{result.error}</p>
-  }
-
-  const days = result.data
-
-  if (days.length === 0) {
+async function DayContent({ date }: { date: string }) {
+  // Look up the shooting day by date
+  const production = await getCurrentProduction()
+  if (!production) {
     return (
       <div className={styles.empty}>
         <CalendarX size={48} className={styles.emptyIcon} />
-        <p className={styles.emptyText}>אין ימי צילום קרובים</p>
-        <Link href="/shooting-days/new">
-          <Button variant="primary">
-            <Plus size={16} />
-            הוסף יום צילום ראשון
-          </Button>
-        </Link>
+        <p className={styles.emptyText}>לא נמצאה הפקה</p>
       </div>
     )
   }
 
+  const dayRows = await db
+    .select()
+    .from(shootingDays)
+    .where(
+      and(
+        eq(shootingDays.productionId, production.id),
+        eq(shootingDays.date, date),
+        eq(shootingDays.isArchived, false)
+      )
+    )
+    .limit(1)
+
+  const day = dayRows[0]
+
+  if (!day) {
+    return (
+      <div className={styles.empty}>
+        <CalendarX size={48} className={styles.emptyIcon} />
+        <p className={styles.emptyText}>אין יום צילום לתאריך זה</p>
+        <AddShootingDayButton date={date} />
+      </div>
+    )
+  }
+
+  const [dayResult, scenesResult, assignmentsResult] = await Promise.all([
+    getShootingDay(day.id),
+    getScenes(day.id),
+    getSceneAssignmentsForDay(day.id),
+  ])
+
+  if ('error' in dayResult || 'error' in scenesResult) {
+    return (
+      <div className={styles.empty}>
+        <CalendarX size={48} className={styles.emptyIcon} />
+        <p className={styles.emptyText}>שגיאה בטעינת יום הצילום</p>
+      </div>
+    )
+  }
+
+  const fullDay = dayResult.data
+  const sceneList = scenesResult.data
+  const assignmentsBySceneId =
+    'data' in assignmentsResult ? assignmentsResult.data : {}
+
   return (
-    <div className={styles.list}>
-      {days.map((day) => (
-        <ShootingDayCard key={day.id} {...day} />
-      ))}
-    </div>
+    <>
+      <ShootingDayHeader day={fullDay} />
+
+      <div className={styles.sceneSection}>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>סצנות</h2>
+          {!fullDay.isArchived && <AddSceneButton shootingDayId={fullDay.id} />}
+        </div>
+        <SortableSceneList
+          scenes={sceneList}
+          shootingDayId={fullDay.id}
+          assignmentsBySceneId={assignmentsBySceneId}
+          isReadOnly={fullDay.isArchived}
+        />
+      </div>
+    </>
   )
 }
 
-function ShootingDaysListSkeleton() {
+function DaySkeleton() {
   return (
-    <div className={styles.skeletonList}>
-      <Skeleton height="90px" borderRadius="12px" />
-      <Skeleton height="90px" borderRadius="12px" />
-      <Skeleton height="90px" borderRadius="12px" />
-    </div>
+    <>
+      <Skeleton height="88px" borderRadius="var(--radius-md)" />
+      <div className={styles.sceneSection}>
+        <div className={styles.sectionHeader}>
+          <Skeleton width="60px" height="20px" borderRadius="var(--radius-xs)" />
+        </div>
+        <div className={styles.skeletonSceneList}>
+          <Skeleton height="110px" borderRadius="12px" />
+          <Skeleton height="110px" borderRadius="12px" />
+          <Skeleton height="110px" borderRadius="12px" />
+        </div>
+      </div>
+    </>
   )
 }
 
-export default function ShootingDaysPage() {
+export default async function ShootingDaysPage({ searchParams }: ShootingDaysPageProps) {
+  const { date } = await searchParams
+  const selectedDate = date ?? format(new Date(), 'yyyy-MM-dd')
+
   return (
     <div className={styles.page}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>ימי צילום</h1>
-        <Link href="/shooting-days/new">
-          <Button variant="primary">
-            <Plus size={16} />
-            יום צילום חדש
-          </Button>
-        </Link>
-      </div>
-
-      <Suspense fallback={<ShootingDaysListSkeleton />}>
-        <ShootingDaysList />
+      <Suspense fallback={<DaySkeleton />}>
+        <DayContent date={selectedDate} />
       </Suspense>
 
-      <div className={styles.archiveLinkRow}>
-        <Link href="/shooting-days/archive" className={styles.archiveLink}>
-          צפה בארכיון ימי הצילום
-        </Link>
-      </div>
     </div>
   )
 }

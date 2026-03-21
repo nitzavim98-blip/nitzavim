@@ -5,14 +5,13 @@ import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Modal from '@/components/ui/Modal'
-import SceneForm from '@/components/shooting-days/SceneForm'
-import styles from './AddSceneButton.module.css'
+import ShootingDayForm from '@/components/shooting-days/ShootingDayForm'
 
 type Props = {
-  shootingDayId: number
+  date: string
 }
 
-export default function AddSceneButton({ shootingDayId }: Props) {
+export default function AddShootingDayButton({ date }: Props) {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -25,15 +24,11 @@ export default function AddSceneButton({ shootingDayId }: Props) {
     <>
       <Button variant="primary" onClick={() => setIsOpen(true)}>
         <Plus size={16} />
-        הוסף סצנה
+        הוסף יום צילום
       </Button>
 
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="סצנה חדשה">
-        <SceneForm
-          shootingDayId={shootingDayId}
-          onSuccess={handleSuccess}
-          onCancel={() => setIsOpen(false)}
-        />
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="יום צילום חדש">
+        <ShootingDayForm date={date} onSuccess={handleSuccess} />
       </Modal>
     </>
   )

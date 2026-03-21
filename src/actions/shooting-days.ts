@@ -272,6 +272,48 @@ export async function getTodayAndTomorrowDays() {
   return { todayResult, tomorrowResult }
 }
 
+export async function getShootingDayDateInfo(): Promise<
+  | {
+      data: {
+        dateRange: { start: string; end: string }
+        shootingDaysByDate: Record<string, { id: number; title: string | null }>
+      }
+    }
+  | { error: string }
+> {
+  const production = await getCurrentProduction()
+  if (!production) return { error: 'לא נמצאה הפקה' }
+
+  let start: string
+  let end: string
+
+  if (production.startDate && production.endDate) {
+    start = production.startDate
+    end = production.endDate
+  } else {
+    const base = production.createdAt
+    start = format(base, 'yyyy-MM-dd')
+    end = format(addDays(base, 14), 'yyyy-MM-dd')
+  }
+
+  const days = await db
+    .select({ id: shootingDays.id, date: shootingDays.date, title: shootingDays.title })
+    .from(shootingDays)
+    .where(
+      and(
+        eq(shootingDays.productionId, production.id),
+        eq(shootingDays.isArchived, false)
+      )
+    )
+
+  const shootingDaysByDate: Record<string, { id: number; title: string | null }> = {}
+  for (const day of days) {
+    shootingDaysByDate[day.date] = { id: day.id, title: day.title }
+  }
+
+  return { data: { dateRange: { start, end }, shootingDaysByDate } }
+}
+
 export async function generateWhatsAppSummary(shootingDayId: number) {
   const production = await getCurrentProduction()
   if (!production) return { error: 'לא נמצאה הפקה' }

@@ -4,26 +4,34 @@
   gap: var(--space-6);
 }
 
-.header {
+.sceneSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sectionHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
 }
 
-.title {
-  font-size: 1.5rem;
+.sectionTitle {
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
 }
 
-.list {
+/* Skeleton loading state */
+.skeletonSceneList {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
 }
 
+/* Empty state */
 .empty {
   display: flex;
   flex-direction: column;
@@ -59,16 +67,4 @@
 
 .archiveLink:hover {
   color: var(--color-primary);
-}
-
-.errorText {
-  color: var(--color-danger);
-  font-size: 0.875rem;
-}
-
-/* Skeleton loading state */
-.skeletonList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
 }

@@ -1,12 +1,9 @@
 'use client'
 
-import { useState, useTransition } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
-import { Pencil, Archive, MessageSquare } from 'lucide-react'
-import toast from 'react-hot-toast'
-import { archiveShootingDay, generateWhatsAppSummary } from '@/actions/shooting-days'
+import { Pencil } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Modal from '@/components/ui/Modal'
 import ShootingDayForm from '@/components/shooting-days/ShootingDayForm'
@@ -18,42 +15,10 @@ type Props = {
 }
 
 export default function ShootingDayHeader({ day }: Props) {
-  const router = useRouter()
   const [isEditing, setIsEditing] = useState(false)
-  const [confirmArchive, setConfirmArchive] = useState(false)
-  const [isArchiving, startArchiveTransition] = useTransition()
-  const [isExporting, startExportTransition] = useTransition()
 
   const parsedDate = new Date(day.date + 'T00:00:00')
   const formattedDate = format(parsedDate, 'EEEE, d בMMMM yyyy', { locale: he })
-
-  function handleWhatsAppExport() {
-    startExportTransition(async () => {
-      const result = await generateWhatsAppSummary(day.id)
-      if ('error' in result) {
-        toast.error(result.error ?? 'אירעה שגיאה')
-        return
-      }
-      try {
-        await navigator.clipboard.writeText(result.data as string)
-        toast.success('הועתק ללוח!')
-      } catch {
-        toast.error('שגיאה בהעתקה ללוח')
-      }
-    })
-  }
-
-  function handleArchive() {
-    startArchiveTransition(async () => {
-      const result = await archiveShootingDay(day.id)
-      if ('error' in result) {
-        toast.error(result.error ?? 'אירעה שגיאה')
-        return
-      }
-      toast.success('יום הצילום הועבר לארכיון')
-      router.push('/shooting-days/archive')
-    })
-  }
 
   return (
     <>
@@ -74,25 +39,6 @@ export default function ShootingDayHeader({ day }: Props) {
                 <Pencil size={16} />
                 עריכה
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setConfirmArchive(true)}
-                aria-label="העבר לארכיון"
-              >
-                <Archive size={16} />
-                ארכיון
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleWhatsAppExport}
-                disabled={isExporting}
-                aria-label="ייצוא לווצאפ"
-              >
-                <MessageSquare size={16} />
-                ייצוא לווצאפ
-              </Button>
             </div>
           )}
         </div>
@@ -112,29 +58,6 @@ export default function ShootingDayHeader({ day }: Props) {
         />
       </Modal>
 
-      {/* Archive confirmation modal */}
-      <Modal
-        isOpen={confirmArchive}
-        onClose={() => setConfirmArchive(false)}
-        title="ארכיון יום צילום"
-      >
-        <p className={styles.confirmText}>האם להעביר את יום הצילום לארכיון?</p>
-        <p className={styles.confirmSubtext}>
-          לאחר העברה, יום הצילום יהיה בקריאה בלבד
-        </p>
-        <div className={styles.confirmActions}>
-          <Button
-            variant="secondary"
-            onClick={() => setConfirmArchive(false)}
-            disabled={isArchiving}
-          >
-            ביטול
-          </Button>
-          <Button variant="danger" onClick={handleArchive} loading={isArchiving}>
-            העבר לארכיון
-          </Button>
-        </div>
-      </Modal>
     </>
   )
 }

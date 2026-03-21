@@ -17,10 +17,12 @@ type InitialData = {
 
 type Props = {
   initialData?: InitialData
+  /** Required when creating a new day (no initialData). Supplied by the page via ?date= search param. */
+  date?: string
   onSuccess?: () => void
 }
 
-export default function ShootingDayForm({ initialData, onSuccess }: Props) {
+export default function ShootingDayForm({ initialData, date, onSuccess }: Props) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
 
@@ -48,29 +50,15 @@ export default function ShootingDayForm({ initialData, onSuccess }: Props) {
 
       if (onSuccess) {
         onSuccess()
-      } else if (!initialData) {
-        router.push(`/shooting-days/${result.data.id}`)
       } else {
-        router.push(`/shooting-days/${initialData.id}`)
+        router.push(`/shooting-days?date=${result.data.date}`)
       }
     })
   }
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles.field}>
-        <label htmlFor="sd-date" className={styles.label}>
-          תאריך *
-        </label>
-        <input
-          type="date"
-          id="sd-date"
-          name="date"
-          required
-          defaultValue={initialData?.date}
-          className={styles.input}
-        />
-      </div>
+      <input type="hidden" name="date" value={initialData?.date ?? date ?? ''} />
 
       <div className={styles.field}>
         <label htmlFor="sd-title" className={styles.label}>

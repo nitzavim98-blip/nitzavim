@@ -5,3 +5,6 @@
 - onboarding for new project
 - many projects for each user (with the option to view)
 - what attributes you can delete and what not (check the DB handler)
+- use react select 
+- remove archive
+- copy scene to a new day (currently in comment)
