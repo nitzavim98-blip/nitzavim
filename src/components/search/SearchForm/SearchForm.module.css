@@ -8,15 +8,6 @@
   gap: var(--space-4);
 }
 
-.heading {
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  margin: 0;
-}
-
 .field {
   display: flex;
   flex-direction: column;
@@ -46,6 +37,58 @@
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
   border-color: var(--color-primary);
+}
+
+/* Row: two fields side by side */
+.row {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.row .field {
+  flex: 1;
+}
+
+/* Age inputs inline */
+.ageRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.ageRow .input {
+  flex: 1;
+}
+
+.ageSep {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+/* Gender */
+.radioGroup {
+  display: flex;
+  gap: var(--space-4);
+  padding-top: var(--space-1);
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+/* Has car */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding-top: var(--space-1);
 }
 
 /* Attribute pills */
@@ -83,49 +126,10 @@
 .pill4.pillActive { border-color: var(--color-tag-4-text); }
 .pill5.pillActive { border-color: var(--color-tag-5-text); }
 
-/* Age row */
-.ageRow {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.ageRow .input {
-  flex: 1;
-}
-
-.ageSep {
-  color: var(--color-text-secondary);
-  font-size: 0.875rem;
-}
-
-/* Gender */
-.radioGroup {
-  display: flex;
-  gap: var(--space-4);
-}
-
-.radioLabel {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-size: 0.875rem;
-  cursor: pointer;
-}
-
-/* Has car */
-.checkboxLabel {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-size: 0.875rem;
-  cursor: pointer;
-}
-
 /* Actions */
 .actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: var(--space-2);
   padding-top: var(--space-2);
   border-top: 1px solid var(--color-border);

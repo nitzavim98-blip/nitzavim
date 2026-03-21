@@ -7,7 +7,7 @@ import {
   Star,
   User,
   Car,
-  Accessibility,
+  PersonStanding,
   Calendar,
   Clapperboard,
   Info,
@@ -150,99 +150,104 @@ export default function ExtraRow({ extra, thumbnailUrl }: ExtraRowProps) {
       <div className={`${styles.card} ${isOpen ? styles.cardOpen : ''}`}>
         {/* Top row */}
         <div className={styles.row}>
-          {/* ⋮ Three-dot menu */}
-          <div className={styles.menuWrapper} ref={menuRef}>
-            <button
-              className={styles.menuButton}
-              onClick={() => setMenuOpen((v) => !v)}
-              aria-label="תפריט"
-              aria-expanded={menuOpen}
-            >
-              <MoreVertical size={18} />
-            </button>
-            {menuOpen && (
-              <div className={styles.dropdown}>
-                <button className={styles.dropdownItem} onClick={handleEdit}>
-                  עריכה
-                </button>
+          {/* Main content: top strip + expand buttons */}
+          <div className={styles.rowMain}>
+            <div className={styles.rowTop}>
+              {/* ⋮ Three-dot menu */}
+              <div className={styles.menuWrapper} ref={menuRef}>
                 <button
-                  className={`${styles.dropdownItem} ${styles.dropdownItemDanger}`}
-                  onClick={handleDeleteClick}
+                  className={styles.menuButton}
+                  onClick={() => setMenuOpen((v) => !v)}
+                  aria-label="תפריט"
+                  aria-expanded={menuOpen}
                 >
-                  מחיקה
+                  <MoreVertical size={18} />
                 </button>
+                {menuOpen && (
+                  <div className={styles.dropdown}>
+                    <button className={styles.dropdownItem} onClick={handleEdit}>
+                      עריכה
+                    </button>
+                    <button
+                      className={`${styles.dropdownItem} ${styles.dropdownItemDanger}`}
+                      onClick={handleDeleteClick}
+                    >
+                      מחיקה
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
 
-          {/* Star */}
-          <button
-            className={`${styles.starButton} ${isFavorite ? styles.starActive : ''}`}
-            onClick={handleStarClick}
-            aria-label={isFavorite ? 'הסר ממועדפים' : 'הוסף למועדפים'}
-            disabled={isPending}
-          >
-            <Star size={18} fill={isFavorite ? 'currentColor' : 'none'} />
-          </button>
-
-          {/* Gender icon */}
-          <span
-            className={styles.genderIcon}
-            style={{ color: extra.gender === 1 ? 'var(--color-male)' : 'var(--color-female)' }}
-            aria-label={extra.gender === 1 ? 'זכר' : 'נקבה'}
-          >
-            <User size={20} />
-          </span>
-
-          {/* Identity */}
-          <div className={styles.identity}>
-            <span className={styles.name}>{extra.fullName}</span>
-            <div className={styles.meta}>
-              {extra.age != null && (
-                <span className={styles.age}>גיל: {extra.age}</span>
-              )}
-              {extra.hasCar && (
-                <span className={styles.carIcon} aria-label="יש רכב">
-                  <Car size={16} color="var(--color-primary)" />
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* 4 expand buttons */}
-          <div className={styles.expandButtons}>
-            {expandBtn('attributes', <Accessibility size={20} />, 'מאפיינים פיזיים')}
-            {expandBtn('availability', <Calendar size={20} />, 'תאריכים נוחים')}
-            {expandBtn('scenes', <Clapperboard size={20} />, 'סצנות')}
-            {expandBtn('info', <Info size={20} />, 'מידע נוסף')}
-          </div>
-
-          {/* Contact */}
-          <div className={styles.contact}>
-            {phoneLink ? (
-              <a href={phoneLink} className={styles.contactBtn} aria-label="התקשר">
-                <Phone size={20} />
-              </a>
-            ) : (
-              <span className={`${styles.contactBtn} ${styles.contactDisabled}`}>
-                <Phone size={20} />
-              </span>
-            )}
-            {waLink ? (
-              <a
-                href={waLink}
-                className={`${styles.contactBtn} ${styles.contactWa}`}
-                aria-label="שלח הודעת וואטסאפ"
-                target="_blank"
-                rel="noreferrer"
+              {/* Star */}
+              <button
+                className={`${styles.starButton} ${isFavorite ? styles.starActive : ''}`}
+                onClick={handleStarClick}
+                aria-label={isFavorite ? 'הסר ממועדפים' : 'הוסף למועדפים'}
+                disabled={isPending}
               >
-                <MessageSquare size={20} />
-              </a>
-            ) : (
-              <span className={`${styles.contactBtn} ${styles.contactDisabled}`}>
-                <MessageSquare size={20} />
+                <Star size={18} fill={isFavorite ? 'currentColor' : 'none'} />
+              </button>
+
+              {/* Gender icon */}
+              <span
+                className={styles.genderIcon}
+                style={{ color: extra.gender === 1 ? 'var(--color-male)' : 'var(--color-female)' }}
+                aria-label={extra.gender === 1 ? 'זכר' : 'נקבה'}
+              >
+                <User size={20} />
               </span>
-            )}
+
+              {/* Identity */}
+              <div className={styles.identity}>
+                <span className={styles.name}>{extra.fullName}</span>
+                <div className={styles.meta}>
+                  {extra.age != null && (
+                    <span className={styles.age}>גיל: {extra.age}</span>
+                  )}
+                  {extra.hasCar && (
+                    <span className={styles.carIcon} aria-label="יש רכב">
+                      <Car size={16} color="var(--color-primary)" />
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Contact */}
+              <div className={styles.contact}>
+                {phoneLink ? (
+                  <a href={phoneLink} className={styles.contactBtn} aria-label="התקשר">
+                    <Phone size={20} />
+                  </a>
+                ) : (
+                  <span className={`${styles.contactBtn} ${styles.contactDisabled}`}>
+                    <Phone size={20} />
+                  </span>
+                )}
+                {waLink ? (
+                  <a
+                    href={waLink}
+                    className={`${styles.contactBtn} ${styles.contactWa}`}
+                    aria-label="שלח הודעת וואטסאפ"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <MessageSquare size={20} />
+                  </a>
+                ) : (
+                  <span className={`${styles.contactBtn} ${styles.contactDisabled}`}>
+                    <MessageSquare size={20} />
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* 4 expand buttons */}
+            <div className={styles.expandButtons}>
+              {expandBtn('attributes', <PersonStanding size={20} />, 'מאפיינים פיזיים')}
+              {expandBtn('availability', <Calendar size={20} />, 'תאריכים נוחים')}
+              {expandBtn('scenes', <Clapperboard size={20} />, 'סצנות')}
+              {expandBtn('info', <Info size={20} />, 'מידע נוסף')}
+            </div>
           </div>
 
           {/* Thumbnail */}
@@ -285,7 +290,14 @@ export default function ExtraRow({ extra, thumbnailUrl }: ExtraRowProps) {
 
         <ExtraExpandableSection isOpen={activeSection === 'info'}>
           <div className={styles.sectionInner}>
-            <MoreInfoSection notes={extra.notes} reliability={extra.reliability} />
+            <MoreInfoSection
+                notes={extra.notes}
+                reliability={extra.reliability}
+                age={extra.age}
+                hasCar={extra.hasCar}
+                isFavorite={isFavorite}
+                onToggleFavorite={handleStarClick}
+              />
           </div>
         </ExtraExpandableSection>
       </div>

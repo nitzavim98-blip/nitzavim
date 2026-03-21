@@ -2,6 +2,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { Film } from 'lucide-react'
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
@@ -49,7 +50,7 @@ export default function ScenesSection({ extraId, isExpanded }: Props) {
         const formattedDate = format(parsedDate, 'd בMMMM yyyy', { locale: he })
 
         return (
-          <div key={assignment.id} className={styles.card}>
+          <Link key={assignment.id} href={`/shooting-days/${shootingDay.id}`} className={styles.card}>
             <div className={styles.cardHeader}>
               <span className={styles.sceneBadge}>סצנה {scene.sortOrder + 1}</span>
               <span className={styles.sceneTitle}>{scene.title}</span>
@@ -71,7 +72,7 @@ export default function ScenesSection({ extraId, isExpanded }: Props) {
                 )}
               </div>
             )}
-          </div>
+          </Link>
         )
       })}
     </div>

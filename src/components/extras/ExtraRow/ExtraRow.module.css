@@ -3,7 +3,6 @@
   background: var(--color-card);
   border: 1px solid var(--color-border);
   border-radius: 12px;
-  overflow: hidden;
   transition: border-inline-start-color 150ms ease;
 }
 
@@ -23,6 +22,26 @@
 
 .row:hover {
   background: var(--color-card-hover);
+}
+
+/* On desktop, flatten rowMain and rowTop so their children become
+   direct flex items of .row. This preserves the original single-row layout. */
+.rowMain {
+  display: contents;
+}
+
+.rowTop {
+  display: contents;
+}
+
+/* Restore desktop order: menu, star, gender, identity, expandButtons, contact, thumbnail.
+   contact and thumbnail need explicit order because in DOM they come before expandButtons. */
+.contact {
+  order: 6;
+}
+
+.thumbnail {
+  order: 7;
 }
 
 /* ⋮ Menu */
@@ -58,7 +77,7 @@
   border: 1px solid var(--color-border);
   border-radius: 8px;
   box-shadow: 0 8px 32px rgba(30, 37, 64, 0.12);
-  z-index: 10;
+  z-index: 100;
   min-width: 120px;
   overflow: hidden;
 }
@@ -157,6 +176,7 @@
 /* Expand buttons */
 .expandButtons {
   display: flex;
+  align-items: center;
   gap: var(--space-2);
   flex-shrink: 0;
 }
@@ -295,11 +315,72 @@
 
 /* Mobile */
 @media (max-width: 767px) {
-  .expandButtons {
+  .row {
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+  }
+
+  /* Undo the display:contents flattening — make rowMain a real column */
+  .rowMain {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    gap: var(--space-1);
+    order: 0;
+  }
+
+  /* rowTop: single flex row with menu, name (ellipsis), contact */
+  .rowTop {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+
+  /* Hide star, gender, and age/car meta on mobile */
+  .starButton,
+  .genderIcon,
+  .meta {
     display: none;
   }
 
+  /* Identity takes remaining width so name ellipses */
   .identity {
     flex: 1;
+    min-width: 0;
+    order: 0;
+  }
+
+  /* Contact sits at end of top row */
+  .contact {
+    order: 0;
+    flex-shrink: 0;
+    gap: var(--space-1);
+  }
+
+  /* Expand buttons: show as full-width bottom row, buttons spread evenly */
+  .expandButtons {
+    display: flex;
+    order: 0;
+    width: 100%;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .expandBtn {
+    flex: 1;
+    width: auto;
+    min-height: 40px;
+  }
+
+  /* Thumbnail: right-side column (visually left in RTL), fixed size */
+  .thumbnail {
+    order: 0;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    align-self: flex-start;
   }
 }

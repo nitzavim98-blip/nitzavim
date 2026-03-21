@@ -74,9 +74,7 @@ export default function SearchForm({
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <h2 className={styles.heading}>סינון</h2>
-
-      {/* Text search */}
+      {/* Row 1: Name — full width */}
       <div className={styles.field}>
         <label htmlFor="search-q" className={styles.label}>
           שם / הערות
@@ -91,108 +89,113 @@ export default function SearchForm({
         />
       </div>
 
-      {/* Attribute pills */}
-      <div className={styles.field}>
-        <span className={styles.label}>מאפיינים פיזיים</span>
-        <div className={styles.pills}>
-          {attributeOptions.map((opt, idx) => {
-            const palette = (idx % TAG_PALETTE_COUNT) + 1
-            const isSelected = selectedAttributeIds.includes(opt.id)
-            return (
-              <button
-                key={opt.id}
-                type="button"
-                onClick={() => toggleAttribute(opt.id)}
-                className={`${styles.pill} ${styles[`pill${palette}`]} ${
-                  isSelected ? styles.pillActive : ''
-                }`}
-                aria-pressed={isSelected}
-              >
+      {/* Row 2: Age range + Gender */}
+      <div className={styles.row}>
+        <div className={styles.field}>
+          <span className={styles.label}>טווח גילאים</span>
+          <div className={styles.ageRow}>
+            <input
+              type="number"
+              value={minAge}
+              onChange={(e) => setMinAge(e.target.value)}
+              placeholder="מינ׳"
+              min={1}
+              max={120}
+              className={styles.input}
+              aria-label="גיל מינימום"
+            />
+            <span className={styles.ageSep}>–</span>
+            <input
+              type="number"
+              value={maxAge}
+              onChange={(e) => setMaxAge(e.target.value)}
+              placeholder="מקס׳"
+              min={1}
+              max={120}
+              className={styles.input}
+              aria-label="גיל מקסימום"
+            />
+          </div>
+        </div>
+
+        <div className={styles.field}>
+          <span className={styles.label}>מגדר</span>
+          <div className={styles.radioGroup}>
+            {[
+              { value: '', label: 'הכל' },
+              { value: '1', label: 'זכר' },
+              { value: '0', label: 'נקבה' },
+            ].map((opt) => (
+              <label key={opt.value} className={styles.radioLabel}>
+                <input
+                  type="radio"
+                  name="gender"
+                  value={opt.value}
+                  checked={gender === opt.value}
+                  onChange={() => setGender(opt.value as '' | '0' | '1')}
+                />
                 {opt.label}
-              </button>
-            )
-          })}
+              </label>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Age range */}
-      <div className={styles.field}>
-        <span className={styles.label}>טווח גילאים</span>
-        <div className={styles.ageRow}>
+      {/* Row 3: Available date + Has car */}
+      <div className={styles.row}>
+        <div className={styles.field}>
+          <label htmlFor="search-date" className={styles.label}>
+            פנוי בתאריך
+          </label>
           <input
-            type="number"
-            value={minAge}
-            onChange={(e) => setMinAge(e.target.value)}
-            placeholder="מינימום"
-            min={1}
-            max={120}
+            id="search-date"
+            type="date"
+            value={availableOnDate}
+            onChange={(e) => setAvailableOnDate(e.target.value)}
             className={styles.input}
-            aria-label="גיל מינימום"
           />
-          <span className={styles.ageSep}>–</span>
-          <input
-            type="number"
-            value={maxAge}
-            onChange={(e) => setMaxAge(e.target.value)}
-            placeholder="מקסימום"
-            min={1}
-            max={120}
-            className={styles.input}
-            aria-label="גיל מקסימום"
-          />
+        </div>
+
+        <div className={styles.field}>
+          <span className={styles.label}>רכב</span>
+          <label className={styles.checkboxLabel}>
+            <input
+              type="checkbox"
+              checked={hasCar}
+              onChange={(e) => setHasCar(e.target.checked)}
+            />
+            יש רכב
+          </label>
         </div>
       </div>
 
-      {/* Gender */}
-      <div className={styles.field}>
-        <span className={styles.label}>מגדר</span>
-        <div className={styles.radioGroup}>
-          {[
-            { value: '', label: 'הכל' },
-            { value: '1', label: 'זכר' },
-            { value: '0', label: 'נקבה' },
-          ].map((opt) => (
-            <label key={opt.value} className={styles.radioLabel}>
-              <input
-                type="radio"
-                name="gender"
-                value={opt.value}
-                checked={gender === opt.value}
-                onChange={() => setGender(opt.value as '' | '0' | '1')}
-              />
-              {opt.label}
-            </label>
-          ))}
+      {/* Row 4: Attributes */}
+      {attributeOptions.length > 0 && (
+        <div className={styles.field}>
+          <span className={styles.label}>מאפיינים פיזיים</span>
+          <div className={styles.pills}>
+            {attributeOptions.map((opt, idx) => {
+              const palette = (idx % TAG_PALETTE_COUNT) + 1
+              const isSelected = selectedAttributeIds.includes(opt.id)
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => toggleAttribute(opt.id)}
+                  className={`${styles.pill} ${styles[`pill${palette}`]} ${
+                    isSelected ? styles.pillActive : ''
+                  }`}
+                  aria-pressed={isSelected}
+                >
+                  {opt.label}
+                </button>
+              )
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Available on date */}
-      <div className={styles.field}>
-        <label htmlFor="search-date" className={styles.label}>
-          פנוי בתאריך
-        </label>
-        <input
-          id="search-date"
-          type="date"
-          value={availableOnDate}
-          onChange={(e) => setAvailableOnDate(e.target.value)}
-          className={styles.input}
-        />
-      </div>
-
-      {/* Has car */}
-      <div className={styles.field}>
-        <label className={styles.checkboxLabel}>
-          <input
-            type="checkbox"
-            checked={hasCar}
-            onChange={(e) => setHasCar(e.target.checked)}
-          />
-          יש רכב
-        </label>
-      </div>
-
-      {/* Actions */}
+      {/* Row 5: Actions */}
       <div className={styles.actions}>
         <button type="submit" className={styles.submitBtn}>
           <Search size={16} />

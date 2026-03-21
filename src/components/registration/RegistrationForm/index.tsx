@@ -241,7 +241,7 @@ export default function RegistrationForm({ token }: Props) {
       <div className={styles.row3}>
         <div className={styles.field}>
           <label htmlFor="age" className={styles.label}>
-            גיל <span className={styles.labelHint}>(לא חובה)</span>
+            גיל <span className={styles.labelHint}>(חובה)</span>
           </label>
           <input
             id="age"

@@ -1,0 +1,7 @@
+- upload images not working
+- fixed colors for attribute options
+- find a name for the app
+- laod all the extras list on mount, when filter or search, check from the cache
+- onboarding for new project
+- many projects for each user (with the option to view)
+- what attributes you can delete and what not (check the DB handler)

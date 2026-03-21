@@ -18,9 +18,11 @@
   letter-spacing: 0.03em;
 }
 
-.required {
-  color: var(--color-danger);
-  margin-inline-start: 2px;
+.labelHint {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  margin-inline-start: 4px;
 }
 
 .input {
@@ -49,6 +51,13 @@
 .errorMsg {
   font-size: 0.75rem;
   color: var(--color-danger);
+}
+
+/* Gender + has-car row */
+.rowGenderCar {
+  display: flex;
+  gap: var(--space-8);
+  align-items: center;
 }
 
 /* Gender toggle */

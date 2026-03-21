@@ -3,6 +3,7 @@ import { z } from 'zod'
 export const createExtraSchema = z.object({
   fullName: z.string().min(1, 'שם מלא הוא שדה חובה').max(255),
   phone: z.string().max(20).optional().nullable(),
+  email: z.string().email('כתובת אימייל לא תקינה').max(255).optional().nullable(),
   gender: z.number().int().min(0).max(1).default(1),
   age: z.number().int().positive('גיל חייב להיות מספר חיובי').optional().nullable(),
   height: z.number().int().positive('גובה חייב להיות מספר חיובי').optional().nullable(),

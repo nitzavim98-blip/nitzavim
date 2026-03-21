@@ -58,6 +58,18 @@ export async function getExtraAttributes(extraId: number) {
   return { data: result }
 }
 
+export async function deleteAttributeOption(id: number) {
+  await requireAuth()
+
+  try {
+    await db.delete(attributeOptions).where(eq(attributeOptions.id, id))
+    revalidatePath('/settings')
+    return { data: true }
+  } catch {
+    return { error: 'שגיאה במחיקת המאפיין' }
+  }
+}
+
 export async function syncExtraAttributes(extraId: number, attributeIds: number[]) {
   await requireAuth()
 

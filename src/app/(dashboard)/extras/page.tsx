@@ -8,6 +8,12 @@ import { ExtraRowSkeleton } from '@/components/ui/Skeleton'
 import Button from '@/components/ui/Button'
 import styles from './extras.module.css'
 
+async function ExtrasCount() {
+  const result = await getExtras()
+  if ('error' in result) return null
+  return <span className={styles.count}>{result.data.length}</span>
+}
+
 async function ExtrasContent() {
   const result = await getExtras()
 
@@ -37,7 +43,12 @@ export default function ExtrasPage() {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <h1 className={styles.title}>ניצבים</h1>
+        <div className={styles.titleRow}>
+          <h1 className={styles.title}>ניצבים</h1>
+          <Suspense fallback={null}>
+            <ExtrasCount />
+          </Suspense>
+        </div>
         <Link href="/extras/new">
           <Button>
             <Plus size={16} />

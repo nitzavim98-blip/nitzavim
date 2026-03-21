@@ -1,11 +1,10 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Plus, Tag as TagIcon } from 'lucide-react'
+import { Plus, Tag as TagIcon, X } from 'lucide-react'
 import toast from 'react-hot-toast'
 import Button from '@/components/ui/Button'
-import Tag from '@/components/ui/Tag'
-import { createAttributeOption } from '@/actions/attributes'
+import { createAttributeOption, deleteAttributeOption } from '@/actions/attributes'
 import styles from './AttributeOptions.module.css'
 
 interface AttributeOption {
@@ -17,10 +16,13 @@ interface AttributeOptionsListProps {
   initialOptions: AttributeOption[]
 }
 
+const TAG_PALETTE_COUNT = 5
+
 export default function AttributeOptionsList({ initialOptions }: AttributeOptionsListProps) {
   const [options, setOptions] = useState<AttributeOption[]>(initialOptions)
   const [inputValue, setInputValue] = useState('')
   const [saving, setSaving] = useState(false)
+  const [deletingId, setDeletingId] = useState<number | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   async function handleAdd() {
@@ -61,6 +63,27 @@ export default function AttributeOptionsList({ initialOptions }: AttributeOption
     }
   }
 
+  async function handleDelete(id: number) {
+    setDeletingId(id)
+    const removed = options.find((o) => o.id === id)
+    setOptions((prev) => prev.filter((o) => o.id !== id))
+
+    try {
+      const result = await deleteAttributeOption(id)
+      if (result && 'error' in result) {
+        setOptions((prev) => (removed ? [...prev, removed] : prev))
+        toast.error(result.error ?? 'שגיאה במחיקת המאפיין')
+      } else {
+        toast.success('המאפיין נמחק')
+      }
+    } catch {
+      setOptions((prev) => (removed ? [...prev, removed] : prev))
+      toast.error('שגיאה במחיקת המאפיין')
+    } finally {
+      setDeletingId(null)
+    }
+  }
+
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') {
       e.preventDefault()
@@ -77,9 +100,23 @@ export default function AttributeOptionsList({ initialOptions }: AttributeOption
         </div>
       ) : (
         <div className={styles.tagList}>
-          {options.map((option, index) => (
-            <Tag key={option.id} label={option.label} index={index} />
-          ))}
+          {options.map((option, index) => {
+            const palette = (index % TAG_PALETTE_COUNT) + 1
+            return (
+              <span key={option.id} className={`${styles.tag} ${styles[`tag${palette}`]}`}>
+                {option.label}
+                <button
+                  type="button"
+                  className={styles.deleteBtn}
+                  onClick={() => handleDelete(option.id)}
+                  disabled={deletingId === option.id}
+                  aria-label={`מחק ${option.label}`}
+                >
+                  <X size={12} />
+                </button>
+              </span>
+            )
+          })}
         </div>
       )}
 

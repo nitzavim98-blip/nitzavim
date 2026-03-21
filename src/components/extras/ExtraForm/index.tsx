@@ -50,6 +50,7 @@ export default function ExtraForm({
 
   const [fullName, setFullName] = useState(extra?.fullName ?? '')
   const [phone, setPhone] = useState(extra?.phone ?? '')
+  const [email, setEmail] = useState(extra?.email ?? '')
   const [gender, setGender] = useState<number>(extra?.gender ?? 1)
   const [age, setAge] = useState<string>(extra?.age != null ? String(extra.age) : '')
   const [height, setHeight] = useState<string>(extra?.height != null ? String(extra.height) : '')
@@ -74,6 +75,7 @@ export default function ExtraForm({
     return {
       fullName,
       phone: phone || null,
+      email: email || null,
       gender,
       age: age ? parseInt(age, 10) : null,
       height: height ? parseInt(height, 10) : null,
@@ -152,7 +154,7 @@ export default function ExtraForm({
       {/* Full name */}
       <div className={styles.field}>
         <label htmlFor="fullName" className={styles.label}>
-          שם מלא <span className={styles.required}>*</span>
+          שם מלא <span className={styles.labelHint}>(חובה)</span>
         </label>
         <input
           id="fullName"
@@ -170,7 +172,9 @@ export default function ExtraForm({
 
       {/* Phone */}
       <div className={styles.field}>
-        <label htmlFor="phone" className={styles.label}>טלפון</label>
+        <label htmlFor="phone" className={styles.label}>
+          טלפון <span className={styles.labelHint}>(חובה)</span>
+        </label>
         <input
           id="phone"
           type="tel"
@@ -183,31 +187,62 @@ export default function ExtraForm({
         />
       </div>
 
-      {/* Gender */}
+      {/* Email */}
       <div className={styles.field}>
-        <span className={styles.label}>מגדר</span>
-        <div className={styles.genderToggle}>
-          <label className={`${styles.genderOption} ${gender === 1 ? styles.genderActive : ''}`}>
+        <label htmlFor="email" className={styles.label}>
+          אימייל <span className={styles.labelHint}>(לא חובה)</span>
+        </label>
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className={styles.input}
+          placeholder="example@email.com"
+          autoComplete="email"
+          dir="ltr"
+        />
+      </div>
+
+      {/* Gender + Has car — one row */}
+      <div className={styles.rowGenderCar}>
+        <div className={styles.field}>
+          <span className={styles.label}>מגדר</span>
+          <div className={styles.genderToggle}>
+            <label className={`${styles.genderOption} ${gender === 1 ? styles.genderActive : ''}`}>
+              <input
+                type="radio"
+                name="gender"
+                value={1}
+                checked={gender === 1}
+                onChange={() => setGender(1)}
+                className={styles.hiddenRadio}
+              />
+              זכר
+            </label>
+            <label className={`${styles.genderOption} ${gender === 0 ? styles.genderActive : ''}`}>
+              <input
+                type="radio"
+                name="gender"
+                value={0}
+                checked={gender === 0}
+                onChange={() => setGender(0)}
+                className={styles.hiddenRadio}
+              />
+              נקבה
+            </label>
+          </div>
+        </div>
+        <div className={styles.field}>
+          <span className={styles.label}>&nbsp;</span>
+          <label className={styles.checkboxLabel}>
             <input
-              type="radio"
-              name="gender"
-              value={1}
-              checked={gender === 1}
-              onChange={() => setGender(1)}
-              className={styles.hiddenRadio}
+              type="checkbox"
+              checked={hasCar}
+              onChange={(e) => setHasCar(e.target.checked)}
+              className={styles.checkbox}
             />
-            זכר
-          </label>
-          <label className={`${styles.genderOption} ${gender === 0 ? styles.genderActive : ''}`}>
-            <input
-              type="radio"
-              name="gender"
-              value={0}
-              checked={gender === 0}
-              onChange={() => setGender(0)}
-              className={styles.hiddenRadio}
-            />
-            נקבה
+            יש רכב
           </label>
         </div>
       </div>
@@ -215,7 +250,9 @@ export default function ExtraForm({
       {/* Age / Height / Weight row */}
       <div className={styles.row3}>
         <div className={styles.field}>
-          <label htmlFor="age" className={styles.label}>גיל</label>
+          <label htmlFor="age" className={styles.label}>
+            גיל <span className={styles.labelHint}>(חובה)</span>
+          </label>
           <input
             id="age"
             type="number"
@@ -228,7 +265,9 @@ export default function ExtraForm({
           />
         </div>
         <div className={styles.field}>
-          <label htmlFor="height" className={styles.label}>גובה (ס&quot;מ)</label>
+          <label htmlFor="height" className={styles.label}>
+            גובה <span className={styles.labelHint}>(ס&quot;מ)</span>
+          </label>
           <input
             id="height"
             type="number"
@@ -241,7 +280,9 @@ export default function ExtraForm({
           />
         </div>
         <div className={styles.field}>
-          <label htmlFor="weight" className={styles.label}>משקל (ק&quot;ג)</label>
+          <label htmlFor="weight" className={styles.label}>
+            משקל <span className={styles.labelHint}>(ק&quot;ג)</span>
+          </label>
           <input
             id="weight"
             type="number"
@@ -253,19 +294,6 @@ export default function ExtraForm({
             max={250}
           />
         </div>
-      </div>
-
-      {/* Has car */}
-      <div className={styles.field}>
-        <label className={styles.checkboxLabel}>
-          <input
-            type="checkbox"
-            checked={hasCar}
-            onChange={(e) => setHasCar(e.target.checked)}
-            className={styles.checkbox}
-          />
-          יש רכב
-        </label>
       </div>
 
       {/* Reliability */}
@@ -291,19 +319,6 @@ export default function ExtraForm({
         </div>
       </div>
 
-      {/* Notes */}
-      <div className={styles.field}>
-        <label htmlFor="notes" className={styles.label}>הערות</label>
-        <textarea
-          id="notes"
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          className={styles.textarea}
-          placeholder="הערות חופשיות על הניצב..."
-          rows={3}
-        />
-      </div>
-
       {/* Physical attributes */}
       <div className={styles.field}>
         <span className={styles.label}>מאפיינים פיזיים</span>
@@ -317,10 +332,27 @@ export default function ExtraForm({
 
       {/* Availability */}
       <div className={styles.field}>
-        <span className={styles.label}>תאריכים נוחים</span>
+        <span className={styles.label}>
+          תאריכים נוחים <span className={styles.labelHint}>(לא חובה)</span>
+        </span>
         <AvailabilityPicker
           records={availabilityRecords}
           onChange={setAvailabilityRecords}
+        />
+      </div>
+
+      {/* Notes */}
+      <div className={styles.field}>
+        <label htmlFor="notes" className={styles.label}>
+          הערות <span className={styles.labelHint}>(לא חובה)</span>
+        </label>
+        <textarea
+          id="notes"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          className={styles.textarea}
+          placeholder="הערות חופשיות על הניצב..."
+          rows={3}
         />
       </div>
 

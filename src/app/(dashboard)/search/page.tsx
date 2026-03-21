@@ -65,12 +65,13 @@ function hasAnyFilter(f: SearchFilters): boolean {
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-  const filters = parseSearchParams(searchParams)
+  const sp = await searchParams
+  const filters = parseSearchParams(sp)
   const rawSceneId =
-    typeof searchParams.sceneId === 'string'
-      ? Number(searchParams.sceneId)
+    typeof sp.sceneId === 'string'
+      ? Number(sp.sceneId)
       : undefined
   const sceneId =
     rawSceneId !== undefined && !isNaN(rawSceneId) ? rawSceneId : undefined
@@ -120,13 +121,11 @@ export default async function SearchPage({
       )}
 
       <div className={styles.layout}>
-        <aside className={styles.sidebar}>
-          <SearchForm
-            initialFilters={filters}
-            attributeOptions={attributeOptions}
-            sceneId={sceneId}
-          />
-        </aside>
+        <SearchForm
+          initialFilters={filters}
+          attributeOptions={attributeOptions}
+          sceneId={sceneId}
+        />
 
         <main className={styles.content}>
           <SearchResults
