@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
@@ -70,6 +70,7 @@ export default function ScenePicker({
 
         <div className={styles.actions}>
           <button
+            type="button"
             className={styles.assignBtn}
             onClick={() =>
               handleAssign(sceneId, sceneContext.shootingDay.id)
@@ -141,6 +142,7 @@ export default function ScenePicker({
                           </span>
                         )}
                         <button
+                          type="button"
                           className={styles.assignBtn}
                           onClick={() =>
                             handleAssign(scene.id, pd.shootingDay.id)
