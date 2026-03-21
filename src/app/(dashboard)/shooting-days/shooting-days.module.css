@@ -72,23 +72,3 @@
   flex-direction: column;
   gap: var(--space-3);
 }
-
-.skeletonCard {
-  height: 90px;
-  background: var(--color-border);
-  border-radius: 12px;
-  animation: skeletonShimmer 1.5s ease-in-out infinite;
-}
-
-.skeletonCardDelay1 {
-  animation-delay: 0.1s;
-}
-
-.skeletonCardDelay2 {
-  animation-delay: 0.2s;
-}
-
-@keyframes skeletonShimmer {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}

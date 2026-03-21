@@ -4,6 +4,7 @@ import { Plus, CalendarX } from 'lucide-react'
 import { getShootingDays } from '@/actions/shooting-days'
 import ShootingDayCard from '@/components/shooting-days/ShootingDayCard'
 import Button from '@/components/ui/Button'
+import { Skeleton } from '@/components/ui/Skeleton'
 import styles from './shooting-days.module.css'
 
 async function ShootingDaysList() {
@@ -42,9 +43,9 @@ async function ShootingDaysList() {
 function ShootingDaysListSkeleton() {
   return (
     <div className={styles.skeletonList}>
-      <div className={styles.skeletonCard} />
-      <div className={`${styles.skeletonCard} ${styles.skeletonCardDelay1}`} />
-      <div className={`${styles.skeletonCard} ${styles.skeletonCardDelay2}`} />
+      <Skeleton height="90px" borderRadius="12px" />
+      <Skeleton height="90px" borderRadius="12px" />
+      <Skeleton height="90px" borderRadius="12px" />
     </div>
   )
 }

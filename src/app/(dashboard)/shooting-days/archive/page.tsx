@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Archive, ArrowRight } from 'lucide-react'
 import { getArchivedShootingDays } from '@/actions/shooting-days'
 import ShootingDayCard from '@/components/shooting-days/ShootingDayCard'
+import { Skeleton } from '@/components/ui/Skeleton'
 import styles from './archive.module.css'
 
 async function ArchiveList() {
@@ -35,9 +36,9 @@ async function ArchiveList() {
 function ArchiveListSkeleton() {
   return (
     <div className={styles.skeletonList}>
-      <div className={styles.skeletonCard} />
-      <div className={`${styles.skeletonCard} ${styles.skeletonCardDelay1}`} />
-      <div className={`${styles.skeletonCard} ${styles.skeletonCardDelay2}`} />
+      <Skeleton height="90px" borderRadius="12px" />
+      <Skeleton height="90px" borderRadius="12px" />
+      <Skeleton height="90px" borderRadius="12px" />
     </div>
   )
 }

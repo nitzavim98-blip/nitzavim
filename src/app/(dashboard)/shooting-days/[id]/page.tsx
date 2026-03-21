@@ -8,6 +8,7 @@ import { getSceneAssignmentsForDay } from '@/actions/extra-scenes'
 import ShootingDayHeader from '@/components/shooting-days/ShootingDayHeader'
 import SortableSceneList from '@/components/shooting-days/SortableSceneList'
 import AddSceneButton from '@/components/shooting-days/AddSceneButton'
+import { Skeleton } from '@/components/ui/Skeleton'
 import styles from './shooting-day-detail.module.css'
 
 async function ScenesSectionContent({ id }: { id: number }) {
@@ -48,27 +49,28 @@ async function ScenesSectionContent({ id }: { id: number }) {
 function ScenesSectionSkeleton() {
   return (
     <>
-      <div className={styles.skeletonHeader} />
+      <Skeleton height="88px" borderRadius="var(--radius-md)" />
       <div className={styles.sceneSection}>
         <div className={styles.sectionHeader}>
-          <div className={styles.skeletonSectionTitle} />
+          <Skeleton width="60px" height="20px" borderRadius="var(--radius-xs)" />
         </div>
         <div className={styles.skeletonSceneList}>
-          <div className={styles.skeletonScene} />
-          <div className={`${styles.skeletonScene} ${styles.skeletonSceneDelay1}`} />
-          <div className={`${styles.skeletonScene} ${styles.skeletonSceneDelay2}`} />
+          <Skeleton height="110px" borderRadius="12px" />
+          <Skeleton height="110px" borderRadius="12px" />
+          <Skeleton height="110px" borderRadius="12px" />
         </div>
       </div>
     </>
   )
 }
 
-export default async function ShootingDayDetailPage({
-  params,
-}: {
-  params: { id: string }
-}) {
-  const id = Number(params.id)
+interface ShootingDayDetailPageProps {
+  params: Promise<{ id: string }>
+}
+
+export default async function ShootingDayDetailPage({ params }: ShootingDayDetailPageProps) {
+  const { id: rawId } = await params
+  const id = Number(rawId)
   if (isNaN(id)) notFound()
 
   return (
