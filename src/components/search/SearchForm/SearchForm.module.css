@@ -1,0 +1,177 @@
+.form {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.heading {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-input);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  background: var(--color-card);
+  box-sizing: border-box;
+  transition: border-color 150ms ease;
+}
+
+.input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-color: var(--color-primary);
+}
+
+/* Attribute pills */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.pill {
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: opacity 150ms ease, border-color 150ms ease;
+  font-family: inherit;
+}
+
+.pill:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.pill1 { background: var(--color-tag-1-bg); color: var(--color-tag-1-text); }
+.pill2 { background: var(--color-tag-2-bg); color: var(--color-tag-2-text); }
+.pill3 { background: var(--color-tag-3-bg); color: var(--color-tag-3-text); }
+.pill4 { background: var(--color-tag-4-bg); color: var(--color-tag-4-text); }
+.pill5 { background: var(--color-tag-5-bg); color: var(--color-tag-5-text); }
+
+.pill1.pillActive { border-color: var(--color-tag-1-text); }
+.pill2.pillActive { border-color: var(--color-tag-2-text); }
+.pill3.pillActive { border-color: var(--color-tag-3-text); }
+.pill4.pillActive { border-color: var(--color-tag-4-text); }
+.pill5.pillActive { border-color: var(--color-tag-5-text); }
+
+/* Age row */
+.ageRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.ageRow .input {
+  flex: 1;
+}
+
+.ageSep {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+/* Gender */
+.radioGroup {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+/* Has car */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+}
+
+.submitBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.submitBtn:hover {
+  background: var(--color-primary-light);
+}
+
+.submitBtn:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.resetBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  color: var(--color-text-muted);
+  border: none;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.resetBtn:hover {
+  color: var(--color-text-secondary);
+}
