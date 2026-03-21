@@ -1,10 +1,11 @@
+import { Suspense } from 'react'
 import Link from 'next/link'
 import { Archive, ArrowRight } from 'lucide-react'
 import { getArchivedShootingDays } from '@/actions/shooting-days'
 import ShootingDayCard from '@/components/shooting-days/ShootingDayCard'
 import styles from './archive.module.css'
 
-export default async function ArchivePage() {
+async function ArchiveList() {
   const result = await getArchivedShootingDays()
 
   if ('error' in result) {
@@ -13,6 +14,35 @@ export default async function ArchivePage() {
 
   const days = result.data
 
+  if (days.length === 0) {
+    return (
+      <div className={styles.empty}>
+        <Archive size={48} className={styles.emptyIcon} />
+        <p className={styles.emptyText}>אין ימי צילום בארכיון</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className={styles.list}>
+      {days.map((day) => (
+        <ShootingDayCard key={day.id} {...day} isArchived />
+      ))}
+    </div>
+  )
+}
+
+function ArchiveListSkeleton() {
+  return (
+    <div className={styles.skeletonList}>
+      <div className={styles.skeletonCard} />
+      <div className={`${styles.skeletonCard} ${styles.skeletonCardDelay1}`} />
+      <div className={`${styles.skeletonCard} ${styles.skeletonCardDelay2}`} />
+    </div>
+  )
+}
+
+export default function ArchivePage() {
   return (
     <div className={styles.page}>
       <div className={styles.nav}>
@@ -24,18 +54,9 @@ export default async function ArchivePage() {
 
       <h1 className={styles.title}>ארכיון ימי צילום</h1>
 
-      {days.length === 0 ? (
-        <div className={styles.empty}>
-          <Archive size={48} className={styles.emptyIcon} />
-          <p className={styles.emptyText}>אין ימי צילום בארכיון</p>
-        </div>
-      ) : (
-        <div className={styles.list}>
-          {days.map((day) => (
-            <ShootingDayCard key={day.id} {...day} isArchived />
-          ))}
-        </div>
-      )}
+      <Suspense fallback={<ArchiveListSkeleton />}>
+        <ArchiveList />
+      </Suspense>
     </div>
   )
 }

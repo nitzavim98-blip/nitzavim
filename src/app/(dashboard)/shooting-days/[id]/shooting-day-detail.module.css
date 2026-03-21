@@ -41,3 +41,45 @@
   color: var(--color-text);
   margin: 0;
 }
+
+/* Skeleton loading state */
+.skeletonHeader {
+  height: 88px;
+  background: var(--color-border);
+  border-radius: var(--radius-md);
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonSectionTitle {
+  height: 20px;
+  width: 60px;
+  background: var(--color-border);
+  border-radius: var(--radius-xs);
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonSceneList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.skeletonScene {
+  height: 110px;
+  background: var(--color-border);
+  border-radius: 12px;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonSceneDelay1 {
+  animation-delay: 0.1s;
+}
+
+.skeletonSceneDelay2 {
+  animation-delay: 0.2s;
+}
+
+@keyframes skeletonShimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

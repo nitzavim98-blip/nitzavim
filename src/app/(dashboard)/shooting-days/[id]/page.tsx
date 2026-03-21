@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
@@ -9,14 +10,7 @@ import SortableSceneList from '@/components/shooting-days/SortableSceneList'
 import AddSceneButton from '@/components/shooting-days/AddSceneButton'
 import styles from './shooting-day-detail.module.css'
 
-export default async function ShootingDayDetailPage({
-  params,
-}: {
-  params: { id: string }
-}) {
-  const id = Number(params.id)
-  if (isNaN(id)) notFound()
-
+async function ScenesSectionContent({ id }: { id: number }) {
   const [dayResult, scenesResult, assignmentsResult] = await Promise.all([
     getShootingDay(id),
     getScenes(id),
@@ -32,14 +26,7 @@ export default async function ShootingDayDetailPage({
     'data' in assignmentsResult ? assignmentsResult.data : {}
 
   return (
-    <div className={styles.page}>
-      <div className={styles.nav}>
-        <Link href="/shooting-days" className={styles.backLink}>
-          <ArrowRight size={16} />
-          ימי צילום
-        </Link>
-      </div>
-
+    <>
       <ShootingDayHeader day={day} />
 
       <div className={styles.sceneSection}>
@@ -54,6 +41,48 @@ export default async function ShootingDayDetailPage({
           isReadOnly={day.isArchived}
         />
       </div>
+    </>
+  )
+}
+
+function ScenesSectionSkeleton() {
+  return (
+    <>
+      <div className={styles.skeletonHeader} />
+      <div className={styles.sceneSection}>
+        <div className={styles.sectionHeader}>
+          <div className={styles.skeletonSectionTitle} />
+        </div>
+        <div className={styles.skeletonSceneList}>
+          <div className={styles.skeletonScene} />
+          <div className={`${styles.skeletonScene} ${styles.skeletonSceneDelay1}`} />
+          <div className={`${styles.skeletonScene} ${styles.skeletonSceneDelay2}`} />
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default async function ShootingDayDetailPage({
+  params,
+}: {
+  params: { id: string }
+}) {
+  const id = Number(params.id)
+  if (isNaN(id)) notFound()
+
+  return (
+    <div className={styles.page}>
+      <div className={styles.nav}>
+        <Link href="/shooting-days" className={styles.backLink}>
+          <ArrowRight size={16} />
+          ימי צילום
+        </Link>
+      </div>
+
+      <Suspense fallback={<ScenesSectionSkeleton />}>
+        <ScenesSectionContent id={id} />
+      </Suspense>
     </div>
   )
 }
