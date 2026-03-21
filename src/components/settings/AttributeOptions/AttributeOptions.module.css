@@ -1,0 +1,72 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.emptyState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  background-color: var(--color-primary-subtle);
+  border-radius: 8px;
+  border: 1px dashed var(--color-border);
+}
+
+.addForm {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding-block-start: 0.75rem;
+  border-block-start: 1px solid var(--color-border);
+}
+
+.input {
+  flex: 1;
+  height: 36px;
+  padding-block: 0;
+  padding-inline: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border-input);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s ease;
+  direction: rtl;
+}
+
+.input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent);
+}
+
+.input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.errorState {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: #b91c1c;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
