@@ -6,7 +6,7 @@ import { users } from '@/db/schema/users'
 import { productions } from '@/db/schema/productions'
 import { eq, asc } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
-import { z } from 'zod'
+import { updateUserRoleSchema } from '@/lib/validations/users'
 
 export async function getCurrentUser() {
   const session = await auth()
@@ -64,17 +64,20 @@ export async function getUsers() {
   }
 
   const result = await db
-    .select()
+    .select({
+      id: users.id,
+      name: users.name,
+      email: users.email,
+      image: users.image,
+      role: users.role,
+      createdAt: users.createdAt,
+      updatedAt: users.updatedAt,
+    })
     .from(users)
     .orderBy(asc(users.createdAt))
 
   return { data: result }
 }
-
-const updateUserRoleSchema = z.object({
-  userId: z.number().int().positive(),
-  newRole: z.enum(['admin', 'director', 'guest']),
-})
 
 export async function updateUserRole(userId: number, newRole: 'admin' | 'director' | 'guest') {
   const currentUser = await getCurrentUser()
@@ -93,9 +96,17 @@ export async function updateUserRole(userId: number, newRole: 'admin' | 'directo
 
   const [updated] = await db
     .update(users)
-    .set({ role: newRole, updatedAt: new Date() })
-    .where(eq(users.id, userId))
-    .returning()
+    .set({ role: parsed.data.newRole, updatedAt: new Date() })
+    .where(eq(users.id, parsed.data.userId))
+    .returning({
+      id: users.id,
+      name: users.name,
+      email: users.email,
+      image: users.image,
+      role: users.role,
+      createdAt: users.createdAt,
+      updatedAt: users.updatedAt,
+    })
 
   if (!updated) {
     return { error: 'המשתמש לא נמצא' }
