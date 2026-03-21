@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { getCurrentUser } from '@/actions/auth'
+import { requireAuth } from '@/actions/auth'
 import { Skeleton } from '@/components/ui/Skeleton'
 import UserManagement from '@/components/settings/UserManagement'
 import TokenManagement from '@/components/settings/TokenManagement'
@@ -17,8 +17,8 @@ function SectionSkeleton() {
 }
 
 export default async function SettingsPage() {
-  const user = await getCurrentUser()
-  const isAdmin = user?.role === 'admin'
+  const user = await requireAuth()
+  const isAdmin = user.role === 'admin'
 
   return (
     <div className={styles.page}>
